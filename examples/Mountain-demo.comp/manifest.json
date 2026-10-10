@@ -1,0 +1,58 @@
+{
+  "activeLayerID" : "42741FC1-BF39-4406-9B80-87D3AB6192F3",
+  "colorSpace" : "sRGB",
+  "documentID" : "E799290C-B783-4C93-9914-5C83D10F6199",
+  "format" : "com.compositor.project",
+  "height" : 600,
+  "layers" : [
+    {
+      "blendMode" : "Normal",
+      "id" : "6F6E8BC3-7898-4FDE-A042-F250E53D0B65",
+      "imageFile" : "6F6E8BC3-7898-4FDE-A042-F250E53D0B65.png",
+      "isGroup" : false,
+      "isVisible" : true,
+      "name" : "Mountains",
+      "opacity" : 1,
+      "transform" : {
+        "flipX" : false,
+        "flipY" : false,
+        "origin" : [
+          0,
+          0
+        ],
+        "rotation" : 0,
+        "sampling" : "High quality",
+        "size" : [
+          960,
+          600
+        ]
+      }
+    },
+    {
+      "blendMode" : "Normal",
+      "id" : "42741FC1-BF39-4406-9B80-87D3AB6192F3",
+      "imageFile" : "42741FC1-BF39-4406-9B80-87D3AB6192F3.png",
+      "isGroup" : false,
+      "isVisible" : true,
+      "name" : "Moon",
+      "opacity" : 1,
+      "transform" : {
+        "flipX" : false,
+        "flipY" : false,
+        "origin" : [
+          480,
+          50
+        ],
+        "rotation" : 0,
+        "sampling" : "High quality",
+        "size" : [
+          80,
+          80
+        ]
+      }
+    }
+  ],
+  "resolution" : 72,
+  "version" : 11,
+  "width" : 960
+}

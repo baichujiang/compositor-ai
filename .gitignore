@@ -22,3 +22,9 @@ xcuserdata/
 # Claude Code settings personal to this machine
 .claude/settings.local.json
 BUILD_PLAN.md
+
+# AI accounts and request artifacts
+auth.json
+.codex/
+compositor-ai-*/
+*.xcresult

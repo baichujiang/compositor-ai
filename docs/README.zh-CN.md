@@ -1,0 +1,42 @@
+# Compositor AI 使用说明
+
+这是基于 [Compositor](https://github.com/robbietilton/Compositor) 开源源码开发的独立 AI 版本，由本仓库维护，非原作者官方版本。手动编辑和 AI 指令直接操作同一份编辑器文档，共用原生撤销记录。
+
+## 安装
+
+1. 准备 Apple Silicon Mac，系统须为 **macOS 26 或更新版本**。
+2. 从 [Releases](https://github.com/baichujiang/compositor-ai/releases) 下载 ZIP，解压，将 **Compositor AI.app** 放到“应用程序”。
+3. 首版是测试预览，仅有临时签名，**尚未通过 Apple 公证**。系统可能拦截来自网络的安装包。确认下载来源后，按 [Apple 官方说明](https://support.apple.com/zh-cn/102445) 为这一个应用授权打开，或自行编译源码。不要全局关闭系统安全检查。
+4. 每个人安装并登录自己的 [Codex CLI](https://github.com/openai/codex)，在终端运行 `codex login`；也可以登录本机 Codex 桌面应用。AI 消耗自己的账号额度，本应用不提供共享额度，也不共享开发者登录信息。
+5. 用正常的打开/导入功能加载图片或 `.comp` 工程，点击工具栏的 **AI**，在输入框用中文描述修改。
+
+如果没有找到 Codex，可在 AI 面板的 Settings 中选择它的可执行文件。预览版实测 CLI 为 0.162.0-alpha.2，旧版可能不支持所需参数。
+
+## 两种编辑方式
+
+- **手动编辑**：原来的图层、蒙版、画笔、滤镜等工具仍可使用。
+- **AI 指令**：例如“把月亮图层透明度改成 65%”“整体稍微提亮”“将选中的图层重命名为前景”。
+
+对于“把月亮放到第二个山尖上”这样的空间指令，需要勾选 **Include canvas image**，模型才能看到画布。图片预览来自编辑器的渲染器，不需要屏幕录制或辅助功能权限。
+
+**Apply edits automatically** 默认开启，AI 返回的合法命令会自动应用。关闭它则先显示命令列表，由你点击 Apply Changes。一次 AI 编辑对应一次原生撤销，按 ⌘Z 可撤销，⇧⌘Z 可重做。保存和导出仍使用编辑器的常规菜单。
+
+## 首版能力与限制
+
+AI 支持选择、重命名、显隐、不透明度、混合模式，移动/缩放/旋转可见的图像、形状和文字图层，以及曝光、主饱和度、黑白调整、视图缩放和撤销/重做。暂不支持 AI 绘画、生成物体、裁剪、删除图层、整体变换文件夹、自动保存/导出或操作其他软件。这些部分可继续手动操作。
+
+AI 思考期间仍可手动编辑；如果文档改变，旧计划会被拒绝，需要重新发送请求。模型可能理解错误，请检查结果并按需撤销。
+
+## 隐私
+
+请求文字、近期对话和图层信息会通过你本机的 Codex 登录发送给对应服务。**Include canvas image 默认关闭**；开启后额外发送最长边不超过 1400 像素的画布预览，不截取桌面。聊天仅保存在运行中的内存中，请求临时文件完成后删除。服务端的数据规则取决于你所使用的 Codex 账号和服务。
+
+不要把自己的登录凭据、API Key 或 Codex auth.json 发给朋友或上传 GitHub。每个人自行登录。
+
+## GitHub 跟踪与参与
+
+- 订阅 [Releases](https://github.com/baichujiang/compositor-ai/releases) 获取新预览包。
+- 在 [Issues](https://github.com/baichujiang/compositor-ai/issues) 报告问题：附系统版本、应用版本、复现步骤与非敏感示例。
+- 开发者可按主 README 编译、运行测试和提交 Pull Request。
+
+本版固定在 Compositor 1.4.8 的源码基线上，保留原 `.comp` 格式 11；不会被官方 Compositor 自动更新替换。后续更新由本项目合并上游改动并测试后发布。正式流畅分发还需要独立的 Developer ID 签名与 Apple 公证。

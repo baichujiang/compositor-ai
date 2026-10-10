@@ -226,6 +226,7 @@ struct NativeResolutionPaintTests {
         full.transform.size = CGSize(width: 1000, height: 1000)
         #expect(full.sizeLabel == "1000 × 1000 px")
         full.transform.size = CGSize(width: 25, height: 25)
-        #expect(full.sizeLabel == "25 × 25 px · 2.5%")
+        // The editor formats numbers using the Mac's locale (for example, 2,5 in German).
+        #expect(full.sizeLabel == "25 × 25 px · \(2.5.formatted())%")
     }
 }

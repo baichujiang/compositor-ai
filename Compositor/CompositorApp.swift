@@ -1,5 +1,4 @@
 import SwiftUI
-import Sparkle
 
 @main
 struct CompositorApp: App {
@@ -7,7 +6,7 @@ struct CompositorApp: App {
     @AppStorage("navigator.visible") private var showsNavigator = false
     private var session: EditorSession { applicationDelegate.session }
     var body: some Scene {
-        Window("Compositor", id: "editor") {
+        Window("Compositor AI", id: "editor") {
             ProjectWorkspaceView(applicationDelegate: applicationDelegate).roundedControls()
         }
             .defaultSize(width: 1180, height: 780)
@@ -99,9 +98,11 @@ struct CompositorApp: App {
                 // Grouped: a commands builder takes at most ten items.
                 Group {
                     CommandGroup(after: .appInfo) {
-                        Button("Check for Updates…") { applicationDelegate.updater.checkForUpdates(nil) }
+                        Button("Compositor AI Releases…") { NSWorkspace.shared.open(URL(string: "https://github.com/baichujiang/compositor-ai/releases")!) }
                     }
                     CommandGroup(after: .toolbar) {
+                        Button("AI Assistant") { session.showsAIAssistant.toggle() }
+                            .keyboardShortcut("a", modifiers: [.command, .shift])
                         Button("Search Commands…") {
                             CommandPaletteController.shared.toggle(session: session, over: applicationDelegate.projects.window)
                         }
@@ -172,7 +173,7 @@ struct CompositorApp: App {
                     // ⌘H toggles the Move tool's transform controls instead of hiding the app, so Hide keeps its
                     // place in the app menu without the shortcut.
                     CommandGroup(replacing: .appVisibility) {
-                        Button("Hide Compositor") { NSApp.hide(nil) }
+                        Button("Hide Compositor AI") { NSApp.hide(nil) }
                         Button("Hide Others") { NSApp.hideOtherApplications(nil) }
                             .configuredKeyboardShortcut("h", modifiers: [.command, .option])
                         Button("Show All") { NSApp.unhideAllApplications(nil) }

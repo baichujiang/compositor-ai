@@ -1,109 +1,62 @@
-# Compositor
+# Compositor AI
 
-Adobe Photoshop costs too much and tools like GIMP don’t feel familiar enough for me to stay in flow. That’s why I built Compositor.
+An **unofficial, MIT-licensed fork** of [Compositor](https://github.com/robbietilton/Compositor) with an AI assistant inside the native Mac editor. Manual editing and natural-language commands operate on the same live document and native undo history.
 
-The goal was to create a full-featured image editor that is completely free and open source. I used to use Photoshop for compositing and post-processing, so Compositor is built around that workflow - with the tools needed to create a pixel-perfect final image.
+[Downloads](https://github.com/baichujiang/compositor-ai/releases) · [中文使用说明](docs/README.zh-CN.md) · [Report a bug](https://github.com/baichujiang/compositor-ai/issues) · [Architecture](docs/ai-architecture.md)
 
-Because it’s open source, you can download the Xcode project and add, remove, or modify any feature to fit your workflow.
+## Try the preview
 
-## Installation
+1. Use an **Apple Silicon Mac running macOS 26 or later**.
+2. Download the ZIP from this repository's Releases, unzip it, and move **Compositor AI.app** to Applications.
+3. This first preview is **ad hoc signed and not notarized**. macOS may block the download. Follow Apple's [instructions for opening a trusted app](https://support.apple.com/en-us/102445), or build the source yourself. Do not turn off Gatekeeper globally.
+4. Install a current [Codex CLI](https://github.com/openai/codex) and run `codex login`, or sign in to the Codex desktop app on this Mac. Each person uses their own account and usage allowance. The app does not include shared AI credits.
+5. Open an image or `.comp` project, use the **AI** toolbar button, and describe an edit. For spatial requests, enable **Include canvas image**.
 
-### Download
-Get Compositor from [robbietilton.com/compositor](https://robbietilton.com/compositor), or download the latest release directly from [GitHub Releases](https://github.com/robbietilton/Compositor/releases/latest).
+The app finds Codex in standard install locations and in `/Applications/Codex.app` or `/Applications/ChatGPT.app`. For a different installation, choose the executable in AI Settings. A detected executable does not establish that the account is signed in. This preview was verified with Codex CLI 0.162.0-alpha.2; older CLIs may not support its planning flags.
 
-### Homebrew
+Examples:
+
+- “Set the Moon layer to 65% opacity.”
+- “Move the moon above the second mountain peak.” (include the canvas image)
+- “Make the whole image a little brighter.”
+- “Rename the selected layer to Foreground.”
+- “Undo the last edit.”
+
+## What AI can do
+
+Select, rename, show/hide, change opacity and blend mode, move, scale, and rotate visible image/shape/text layers; add or update exposure, master saturation and black-and-white adjustments; zoom; undo and redo. Disable **Apply edits automatically** to inspect a proposed command list first.
+
+Every editing request is validated as a complete sequence and becomes one native undo step. If you edit the document while AI is thinking, its stale result is rejected. Saving and exporting use the normal editor controls. AI cannot paint, generate objects, crop, delete layers, transform folders, save/export files, or control other apps in this preview. The full manual editor remains available.
+
+## Privacy and account use
+
+AI sends your text, recent conversation and layer metadata to the service configured by your local Codex login. **Include canvas image** is off by default; enabling it sends a flattened canvas preview up to 1,400 pixels on its long side. It does not capture the desktop. Temporary request files are deleted after each request, and chat is kept in app memory only. Codex's own account and service policies still apply.
+
+No API keys or account tokens are included in this repository or release. Never copy your Codex credentials to friends or GitHub. The process is instructed to return typed JSON only, with shell, browser, app, plugin and computer-use tools disabled and a read-only sandbox. Native code validates and applies the allowed commands. This preview runs without the macOS App Sandbox so it can launch the locally installed CLI and use that CLI's own credentials.
+
+## Build and test
+
+Install Xcode **26.6 or later**, then:
 
 ```sh
-brew install --cask robbietilton-compositor
+git clone https://github.com/baichujiang/compositor-ai.git
+cd compositor-ai
+xcodebuild build -project Compositor.xcodeproj -scheme Compositor   -destination 'platform=macOS,arch=arm64' -configuration Debug   -derivedDataPath build/DerivedData CODE_SIGN_IDENTITY=-
+open 'build/DerivedData/Build/Products/Debug/Compositor AI.app'
 ```
 
-## Features
+Run `./scripts/test.sh` for the unit suite, including native command validation, undo, stale-document rejection and adjustment preservation. Tests do not need AI credentials. GitHub Actions runs the suite on pushes and pull requests. To build a downloadable preview, run `./scripts/release.sh`; outputs and SHA-256 checksums are placed in `dist/`.
 
-### Layers
-- Layers and folders, with opacity and Photoshop's full set of blend modes in its order — a folder's opacity dims everything inside it
-- Layer masks: paint, fill, invert, blur and feather them anywhere on the canvas, past the layer's own pixels; link or unlink them to transform a mask on its own
-- Clipping masks and folder masks
-- Adjustment layers: Hue/Saturation, Levels, Curves, Exposure, Gradient Map, Grain, Black & White, Color Balance, Invert, Gaussian Blur, Motion Blur and Noise
-- Layer effects: Stroke, Drop Shadow, Color Overlay, Inner Shadow, Outer Glow and Inner Glow, rendered on the GPU and editable at any time
-- Merge Down, Merge Layers and Merge Group (⌘E)
-- Duplicate, rename inline, reorder and nest by drag and drop; Option-drag to duplicate; a right-click menu in the Layers panel
-- Copy and paste whole layers and folders (⌘C/⌘V with no selection), within a project or between projects, or drag them between projects
+A public release that opens without Gatekeeper's unverified-developer warning requires this project's own Developer ID signing and Apple notarization. Those credentials are not present in this repository. Preview releases are marked prerelease.
 
-### Transform
-- Non-destructive move, scale, rotate and flip — images keep their full resolution however small you make them
-- Free distort (⌘-drag a handle), with Shift to lock to an axis
-- Transform several layers, or a whole folder, together
-- Snapping to canvas and layer edges and centers, with guides
-- Exact values for position, size, scale and angle, stepped with the arrow keys
-- Flip Layer and Flip Canvas, horizontal and vertical
+## Upstream and compatibility
 
-### Selections
-- Rectangle and Ellipse Marquee, Freehand and Polygonal Lasso, and the Magic tool — Wand selects by color, Object traces whatever you click (Tab switches)
-- Select Subject, and Expand, Contract and Feather on any selection
-- Add to and subtract from selections, move the outline, or move and duplicate the pixels inside
-- Load a layer's pixels or a mask as a selection
-- Content-Aware Fill, which can also extend an image past its edges
+The AI branch is based on **Compositor 1.4.8**, commit `22c7b8d5b23bb1e27a5746912061b23757c4f554`. The project's default branch is `ai/integrated-assistant`; `main` retains upstream history. AI changes are concentrated in `Compositor/AI/`, with small hooks in the editor UI and session.
 
-### Painting and retouching
-- Brush with size, hardness, opacity and smoothing, in Paint or Erase mode (B and E), and Shift for straight lines
-- Spot Healing Brush (content-aware)
-- Clone Stamp, aligned or not, sampling one layer or all of them
-- Blur tool, on pixels or masks
-- Gradient tool and Shape tool (rectangles, rounded rectangles, ellipses and lines), which stay editable rather than being rasterized
-- Type tool (T): inline multiline editing in draggable, resizable paragraph boxes; font, size, color, alignment and spacing in the tool header; transform text and use it as a clipping mask
-- Eyedropper and a full color picker
+The `.comp` format remains version **11**; AI adds ordinary native adjustment layers rather than private file fields. Opening a newer upstream format is subject to the original editor's compatibility rules. Upstream's Sparkle updater was removed, so official Compositor updates cannot replace this build. Compositor AI has its own bundle ID, preferences and release channel and can coexist with Compositor.
 
-### Adjustments and filters
-- Camera Raw filter: light, color, curves, color mixer, color grading, detail, optics and geometry, in a panel beside the canvas
-- Levels (with Auto), Curves, Hue/Saturation, Exposure, Gradient Map, Grain, Black & White, Color Balance and Invert
-- Gaussian Blur and Motion Blur that spread past a layer's edges
-- Add Noise, Vignette, Bloom / Glow, Dither, Scanlines, Tonal Contrast, Lens Correction and Remove Background
-- Live previews, limited to the selection when there is one
-- Last Filter (⌃⌘F) runs the last filter again with the same settings
+See [upstream tracking](UPSTREAM.md), [contributing](CONTRIBUTING.md), and [the original feature list](docs/UPSTREAM-README.md). Upstream updates are reviewed and tested before being adopted; a source fork still requires maintenance for macOS, rendering, file formats and AI dependencies.
 
-### Canvas and files
-- Multiple projects in tabs
-- Search Commands (⌘F): find every menu command and tool by name, as in Raycast or Obsidian, and run it with Return
-- Toggle Fullscreen (F): the canvas alone on black over the whole screen, with every panel put away; F or Esc brings them back
-- Rulers (⌘R), guides dragged from them, a layout grid with adjustable spacing and subdivisions, and Snap To for guides, grid, layers and document bounds
-- Crop with snapping, ratios including 3:4 and 9:16, and Option for symmetric cropping; with a selection, the crop starts at it
-- Canvas Size, Image Size and Trim
-- A Navigator minimap in the canvas's corner from 300% zoom: the whole document in small with a box around the view; click or drag to move there (View › Navigator)
-- Sharp high-quality downsampling when zoomed out, and a pixel grid when zoomed in
-- Import JPEG, PNG, HEIC, TIFF, SVG, camera RAW (with a develop step first) and Photoshop PSD and PSB (8-bit RGB; not CMYK). Photoshop folders, masks, blend modes, fill rectangles/ellipses, and simple horizontal text stay editable; other vectors and vertical text become pixels. A conversion report is shown before anything is applied.
-- Large documents: the memory budget scales with your Mac, and a Photoshop file too big to open has its layers cropped to the canvas instead
-- Export PNG (⇧⌘E), Export JPEG (⇧⌥⌘S), and Export As (⇧⌥⌘W) for PNG, JPEG or a one-page PDF at the print size, scaled if you like, with a live preview, JPEG quality and file size; Copy Merged
-- Keep working while a project saves
-- Photoshop-style keyboard shortcuts throughout, remappable in Edit > Keyboard Shortcuts
-- Drag a number's label to scrub its value, as in Photoshop
-- Automatic updates, signed and notarized
+## License and credits
 
-### Works with AI agents
-- AI agents and scripts can build and edit projects directly: a `.comp` is a folder of PNG layers and a manifest, and an open project updates live as it's written. See [Writing Compositor projects](docs/writing-comp-files.md)
-
-## Requirements
-
-- macOS 26.0 or later on a Mac with Apple silicon
-- Xcode 26 or later (to build from source)
-
-## Translations
-
-Compositor is English only for now, and translation pull requests aren't being accepted. It's maintained by one person, every new string would need translating from then on, and translations in languages I don't read can't be reviewed. I'll revisit this once the app settles; until then, please don't open localization PRs.
-
-## Building
-
-Open `Compositor.xcodeproj` and run the **Compositor** scheme.
-
-## Releasing
-
-`scripts/release.sh` builds a Release version, signs it with Developer ID, notarizes and staples it, and packages it into `dist/Compositor-<version>.dmg`.
-
-It needs, all kept outside this repository:
-
-- a **Developer ID Application** certificate in the login keychain
-- notarization credentials saved with `xcrun notarytool store-credentials "compositor-notary" …`
-- [`create-dmg`](https://github.com/create-dmg/create-dmg) (`brew install create-dmg`)
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+Compositor was created by Robbie Tilton / Wonder Assembly LLC. Its MIT license and copyright notice are retained in [LICENSE](LICENSE). Compositor AI is an independent derivative maintained in this repository and is not an official Compositor release. AI additions are also MIT licensed; see [NOTICE](NOTICE).

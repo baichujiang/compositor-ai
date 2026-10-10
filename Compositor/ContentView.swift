@@ -119,6 +119,10 @@ struct ContentView: View {
                 if !session.canvasOnly {
                     PanelResizeEdge(width: $layersPanelWidth, range: LayersPanel.widths)
                     LayersPanel(session: session, width: layersPanelWidth)
+                    if session.showsAIAssistant {
+                        Divider()
+                        AIAssistantPanel(session: session, assistant: session.aiAssistant)
+                    }
                 }
             }
             if !session.canvasOnly {
@@ -187,13 +191,18 @@ struct ContentView: View {
                         // As wide as the toolbar allows: the window less the traffic lights and New button before it
                         // and the zoom controls after it. Bounded, so adding tabs never pushes those aside; the
                         // strip scrolls instead.
-                        .frame(width: max(200, windowWidth - 352), height: 34, alignment: .center)
+                        .frame(width: max(200, windowWidth - 430), height: 34, alignment: .center)
                 }
                 .sharedBackgroundVisibility(.hidden)
             }
             // Absorb all remaining navigation-toolbar width before the zoom controls.
             // Without this spacer, the growing tab strip pushes the primary actions left.
             ToolbarSpacer(.flexible, placement: .navigation)
+            ToolbarItem(placement: .primaryAction) {
+                Button { session.showsAIAssistant.toggle() } label: { Label("AI", systemImage: "sparkles") }
+                    .help("Show or hide AI Assistant (⇧⌘A)")
+                    .accessibilityIdentifier("aiToggle")
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button("Fit") { session.fit() }.help("Fit canvas in window (⌘0)")
                     .accessibilityIdentifier("fitCanvas").disabled(session.document == nil)
@@ -218,7 +227,7 @@ struct ContentView: View {
         }
     }
 
-    var body: some View {
+    private var editingEvents: some View {
         editorChrome
         .onChange(of: session.levels == nil) { _, closed in
             if closed { levelsPanel.close() }
@@ -272,9 +281,13 @@ struct ContentView: View {
                                  placement: placement)
             }
         }
+    }
+    var body: some View {
+        editingEvents
         .onChange(of: session.document == nil) { _, empty in
             if !empty { session.canvasFocusRequest += 1 }
         }
+        .onChange(of: session.document?.id) { _, _ in session.aiAssistant.clear() }
         .fileImporter(isPresented: $session.showsImporter,
                       allowedContentTypes: UTType.importableImages, allowsMultipleSelection: true) { result in
             switch result {

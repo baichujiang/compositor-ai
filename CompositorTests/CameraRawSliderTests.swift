@@ -64,6 +64,11 @@ struct CameraRawSliderTests {
         let slider = CameraRawSliderView(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
         slider.minValue = -100
         slider.maxValue = 100
+        // AppKit calculates the cell's track geometry when drawn, not when its frame is assigned.
+        let image = NSImage(size: slider.bounds.size)
+        image.lockFocus()
+        slider.cell?.draw(withFrame: slider.bounds, in: slider)
+        image.unlockFocus()
         let left = slider.value(at: NSPoint(x: 0, y: slider.bounds.midY))
         let center = slider.value(at: NSPoint(x: slider.bounds.midX, y: slider.bounds.midY))
         let right = slider.value(at: NSPoint(x: slider.bounds.maxX, y: slider.bounds.midY))
