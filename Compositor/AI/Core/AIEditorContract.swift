@@ -50,4 +50,3 @@ nonisolated enum AIAssistantError: LocalizedError {
         return nil
     }
 }
-
