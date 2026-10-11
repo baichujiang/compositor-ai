@@ -1,5 +1,9 @@
 # Compositor AI
 
+<img src="Compositor/Assets.xcassets/AppIcon.appiconset/app-icon-128.png" width="96" height="96" alt="Compositor AI">
+
+Since 0.4.2, Compositor AI uses its own green icon with stacked canvases and a star, distinct from the official Compositor icon.
+
 An **unofficial, MIT-licensed fork** of [Compositor](https://github.com/robbietilton/Compositor) with an AI assistant inside the native Mac editor. Manual editing and natural-language commands operate on the same live document and native undo history.
 
 [Downloads](https://github.com/baichujiang/compositor-ai/releases) · [中文使用说明](docs/README.zh-CN.md) · [Report a bug](https://github.com/baichujiang/compositor-ai/issues) · [Architecture](docs/ai-architecture.md)

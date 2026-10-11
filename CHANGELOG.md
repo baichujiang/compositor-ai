@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2 — 2026-10-11 (preview)
+
+- Replaced the inherited application icon with an independent forest-green icon featuring stacked image canvases and a star, distinguishing Compositor AI from the official editor in Finder, the Dock and the app switcher.
+- Updated all macOS AppIcon sizes, with transparent outer corners; added the icon to the English/Chinese project guides and documented its source and generation in `docs/app-icon.md`. Native editor behavior, layout, AI providers and the adopted upstream baseline are unchanged.
+
 ## 0.4.1 — 2026-10-11 (preview)
 
 - Clarified Chinese layer Scale as “比例” and canvas-zoom help as “画布缩放”; the actual-pixels button now explains where the current zoom is displayed. Control positions and native navigation behavior are preserved.

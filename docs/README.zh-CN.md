@@ -1,5 +1,9 @@
 # Compositor AI 使用说明
 
+<img src="../Compositor/Assets.xcassets/AppIcon.appiconset/app-icon-128.png" width="96" height="96" alt="Compositor AI">
+
+从 0.4.2 起，Compositor AI 使用独立的绿色叠加画布与星芒图标，可在 Dock、访达和应用切换器中与官方 Compositor 区分。
+
 这是基于 [Compositor](https://github.com/robbietilton/Compositor) 开源源码开发的独立 AI 版本，由本仓库维护，非原作者官方版本。手动编辑和 AI 指令直接操作同一份编辑器文档，共用原生撤销记录。
 
 ## 安装
