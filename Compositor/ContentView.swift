@@ -211,13 +211,11 @@ struct ContentView: View {
             ToolbarItem(placement: .primaryAction) {
                 HStack(spacing: 0) {
                     Button { session.zoomKeyboard(by: 1) } label: {
-                        Image(systemName: "plus.magnifyingglass")
-                            .accessibilityLabel(Text(verbatim: L("Zoom In")))
-                    }.help("Zoom in (⌘+)").accessibilityLabel(Text(verbatim: L("Zoom In"))).disabled(session.document == nil)
+                        Label(L("Zoom In"), systemImage: "plus.magnifyingglass").labelStyle(.iconOnly)
+                    }.help("Zoom in (⌘+)").disabled(session.document == nil)
                     Button { session.zoomKeyboard(by: -1) } label: {
-                        Image(systemName: "minus.magnifyingglass")
-                            .accessibilityLabel(Text(verbatim: L("Zoom Out")))
-                    }.help("Zoom out (⌘−)").accessibilityLabel(Text(verbatim: L("Zoom Out"))).disabled(session.document == nil)
+                        Label(L("Zoom Out"), systemImage: "minus.magnifyingglass").labelStyle(.iconOnly)
+                    }.help("Zoom out (⌘−)").disabled(session.document == nil)
                 }
                 .padding(.horizontal, 4)
             }
