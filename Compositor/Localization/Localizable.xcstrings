@@ -1514,6 +1514,23 @@
         }
       }
     },
+    "Authenticate Gemini CLI in Terminal, then try again. Run gemini; use Gemini API Key if Google sign-in rejects this client.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authenticate Gemini CLI in Terminal, then try again. Run gemini; use Gemini API Key if Google sign-in rejects this client."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先在终端运行 gemini 并完成认证，再重试。如果 Google 登录拒绝此客户端，可选择 Gemini API Key。"
+          }
+        }
+      }
+    },
     "Auto": {
       "extractionState": "manual",
       "localizations": {
@@ -7974,6 +7991,23 @@
         }
       }
     },
+    "Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google 已拒绝你账号使用的 Gemini CLI 客户端。可选择 Gemini API Key，使用独立 API 额度和计费。Antigravity CLI 需要另行适配。"
+          }
+        }
+      }
+    },
     "Gradient": {
       "extractionState": "manual",
       "localizations": {
@@ -9976,6 +10010,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Instagram 快拍"
+          }
+        }
+      }
+    },
+    "Install Gemini CLI 0.63.0 or later and authenticate in Terminal. Google sign-in may reject this client; Gemini API Key uses separate API quotas and billing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install Gemini CLI 0.63.0 or later and authenticate in Terminal. Google sign-in may reject this client; Gemini API Key uses separate API quotas and billing."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装 Gemini CLI 0.63.0 或更新版本，在终端完成认证。Google 登录可能拒绝此客户端；Gemini API Key 使用独立 API 额度和计费。"
           }
         }
       }
@@ -17698,23 +17749,6 @@
         }
       }
     },
-    "Sign in to Gemini CLI in Terminal, then try again. Run gemini and choose your account.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign in to Gemini CLI in Terminal, then try again. Run gemini and choose your account."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请先在终端运行 gemini 并登录自己的账号，然后重试。"
-          }
-        }
-      }
-    },
     "Size": {
       "extractionState": "manual",
       "localizations": {
@@ -20261,23 +20295,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用你自己的 Codex 账号。安装 Codex CLI 并运行 codex login，或登录 Codex 桌面应用。"
-          }
-        }
-      }
-    },
-    "Use your own Gemini login. Install Gemini CLI 0.63.0 or later, run gemini in Terminal, and sign in.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use your own Gemini login. Install Gemini CLI 0.63.0 or later, run gemini in Terminal, and sign in."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "请使用自己的 Gemini 账号。安装 Gemini CLI 0.63.0 或更新版本，在终端运行 gemini 并登录。"
           }
         }
       }

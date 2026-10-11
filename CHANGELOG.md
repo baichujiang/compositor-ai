@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Corrected Gemini login guidance after Google rejected the legacy CLI for an individual account, including on CLI 0.63.0. API key authentication uses separate API quotas and billing; Antigravity CLI is a different client and is not supported by the existing adapter.
+- Recognize the unsupported-client error before generic authentication failures, with English/Chinese migration guidance and regression coverage. This does not change account credentials or native editor behavior.
+
 ## 0.3.0 — 2026-10-11 (preview)
 
 - Added optional Gemini CLI backend alongside the default Codex backend, with separate executable and model settings in Chinese and English.

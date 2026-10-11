@@ -14,7 +14,7 @@ nonisolated enum AIBackendProvider: String, CaseIterable, Identifiable, Sendable
     var loginInstructions: String {
         self == .codex
             ? "Use your own Codex login. Install Codex CLI and run codex login, or sign in to the Codex desktop app."
-            : "Use your own Gemini login. Install Gemini CLI 0.63.0 or later, run gemini in Terminal, and sign in."
+            : "Install Gemini CLI 0.63.0 or later and authenticate in Terminal. Google sign-in may reject this client; Gemini API Key uses separate API quotas and billing."
     }
     func findExecutable(customPath: String = "") -> URL? {
         let bundled = self == .codex ? [

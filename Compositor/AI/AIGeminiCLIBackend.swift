@@ -82,8 +82,13 @@ nonisolated final class AIGeminiCLIBackend: AIBackend, @unchecked Sendable {
         guard status == 0, envelope?["error"] == nil else {
             let diagnostic = String(decoding: diagnostics, as: UTF8.self)
                 + (envelope?["error"].map { String(describing: $0) } ?? "")
+                + (envelope == nil ? String(decoding: data, as: UTF8.self) : "")
+            if diagnostic.localizedCaseInsensitiveContains("UNSUPPORTED_CLIENT")
+                || diagnostic.localizedCaseInsensitiveContains("no longer supported for Gemini Code Assist") {
+                throw AIAssistantError.message("Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration.")
+            }
             if diagnostic.localizedCaseInsensitiveContains("auth") || diagnostic.contains("401") || diagnostic.localizedCaseInsensitiveContains("sign in") {
-                throw AIAssistantError.message("Sign in to Gemini CLI in Terminal, then try again. Run gemini and choose your account.")
+                throw AIAssistantError.message("Authenticate Gemini CLI in Terminal, then try again. Run gemini; use Gemini API Key if Google sign-in rejects this client.")
             }
             if diagnostic.contains("429") || diagnostic.localizedCaseInsensitiveContains("quota") {
                 throw AIAssistantError.message("Gemini's usage limit was reached. Check your account or try again later.")

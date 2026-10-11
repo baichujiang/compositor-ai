@@ -7,7 +7,7 @@
 1. 准备 Apple Silicon Mac，系统须为 **macOS 26 或更新版本**。
 2. 从 [Releases](https://github.com/baichujiang/compositor-ai/releases) 下载 ZIP，解压，将 **Compositor AI.app** 放到“应用程序”。
 3. 当前版本是测试预览，仅有临时签名，**尚未通过 Apple 公证**。系统可能拦截来自网络的安装包。确认下载来源后，按 [Apple 官方说明](https://support.apple.com/zh-cn/102445) 为这一个应用授权打开，或自行编译源码。不要全局关闭系统安全检查。
-4. 可选 **Codex** 或 **Gemini CLI**。Codex 可运行 `codex login`，也可登录本机 Codex 桌面应用。Gemini 需要安装 [Gemini CLI](https://geminicli.com/docs/get-started/installation/) **0.63.0 或更新版本**，在终端运行 `gemini` 并按提示登录。每个人使用自己的账号额度，本应用不提供共享额度。
+4. 可选 **Codex** 或 **Gemini CLI**。Codex 可运行 `codex login`，也可登录本机 Codex 桌面应用。Gemini 需要安装 [Gemini CLI](https://geminicli.com/docs/get-started/installation/) **0.63.0 或更新版本**，在终端运行 `gemini` 并完成认证。**个人账号的 Google 登录可能被服务端拒绝，请先阅读下方认证说明。** 每个人使用自己的凭据和额度，本应用不提供共享额度。
 5. 用正常的打开/导入功能加载图片或 `.comp` 工程，选择 **显示 → AI 助手**，选择“AI 后端”，在输入框用中文描述修改。
 
 如果没有找到对应 CLI，可在 AI 面板的“设置”中选择其可执行文件。自动查找包含常规安装路径和 NVM 的 Node 目录。“已找到”只代表文件存在，不代表已登录。Codex 实测版本为 0.162.0-alpha.2，Gemini 接入按 0.63.0 校验。
@@ -20,6 +20,16 @@ gemini
 ```
 
 登录完成后，在 AI 面板选择 Gemini CLI。设置中的模型名称可以留空，使用 CLI 默认模型；额度不足、登录失败或格式无效会显示错误，不会自动改用其他服务。切换后端会清空应用当前对话和待执行计划。
+
+### Gemini 认证与 Google 登录受限
+
+2026 年 10 月 11 日，个人账号在 Gemini CLI 0.63.0 上收到 Google 的报错，说明该客户端不再支持个人版 Gemini Code Assist。[官方问题记录](https://github.com/google-gemini/gemini-cli/issues/28745) 也有相同情况，但 [认证文档](https://geminicli.com/docs/get-started/authentication/) 仍推荐 Google 登录。安装新版 CLI 并不能保证服务端接受你账号所用的客户端。
+
+现有 Gemini CLI 后端可使用你自己在 [Google AI Studio](https://aistudio.google.com/) 创建的 API Key：运行 `gemini`，选择 **Use Gemini API Key**，只在本机 CLI 的输入框中填写密钥。CLI 0.63.0 会通过它自己的 [凭据存储](https://github.com/google-gemini/gemini-cli/blob/v0.63.0/packages/core/src/core/apiKeyCredentialStorage.ts) 保存密钥，应用之后使用 CLI 已保存的认证。必要时可按官方认证文档配置用户级 `~/.gemini/.env`；仅在终端 `export` 的变量不会自动传给从 Finder 打开的应用。不要提交密钥，也不要把它填到应用的可执行文件路径中。
+
+**API Key 使用独立 API 额度和计费；Google AI 订阅不代表已经包含 API 额度。** 启用付费调用前请查看自己账号的 [额度与计费](https://geminicli.com/docs/resources/quota-and-pricing/)。目前尚未验证真实 API Key 下的模型编辑和看图效果。
+
+Google 提供了 [Antigravity CLI 迁移说明](https://antigravity.google/docs/cli/gcli-migration/)。该客户端使用 `agy`，配置和输出格式与 `gemini` 不同。**Compositor AI 0.3.0 尚未接入 Antigravity CLI**，直接把 Gemini 的可执行文件换成 `agy` 不会完成适配。后续接入仍须共用本应用的原生命令与撤销系统；真实账号认证也需要另行验证。
 
 ## 中文界面与语言切换
 

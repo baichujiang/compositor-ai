@@ -90,6 +90,30 @@ struct AIBackendTests {
         #expect(throws: AIAssistantError.self) { try AIGeminiCLIBackend.response(from: valid, status: 1) }
         #expect(throws: AIAssistantError.self) { try AIGeminiCLIBackend.response(from: Data("not json".utf8), status: 0) }
     }
+    @Test func unsupportedGoogleClientHasMigrationGuidanceInsteadOfAnotherSignIn() throws {
+        let rejected = "Failed to sign in. This client is no longer supported for Gemini Code Assist for individuals."
+        let envelope = try JSONSerialization.data(withJSONObject: ["response": emptyPlan, "error": ["reason": "UNSUPPORTED_CLIENT", "type": "AuthenticationError"]])
+        for (output, status, diagnostics) in [(envelope, Int32(0), Data()),
+                                             (Data(), Int32(41), Data(rejected.utf8)),
+                                             (Data(rejected.utf8), Int32(1), Data())] {
+            do {
+                _ = try AIGeminiCLIBackend.response(from: output, status: status, diagnostics: diagnostics)
+                Issue.record("Rejected client returned a plan")
+            } catch AIAssistantError.message(let message) {
+                #expect(message.hasPrefix("Google rejected this Gemini CLI client"))
+                #expect(message.contains("separate API quotas and billing"))
+                #expect(message.contains("Antigravity CLI requires a separate integration"))
+                #expect(AppLocalization.text(message, language: "zh-Hans").contains("独立 API 额度和计费"))
+            }
+        }
+        do {
+            _ = try AIGeminiCLIBackend.response(from: Data(), status: 41, diagnostics: Data("authentication required".utf8))
+            Issue.record("Unauthenticated request returned a plan")
+        } catch AIAssistantError.message(let message) {
+            #expect(message.hasPrefix("Authenticate Gemini CLI in Terminal"))
+            #expect(!message.contains("Google rejected"))
+        }
+    }
     @Test func codexRetainsItsFlagsAndUsesTheSharedContract() throws {
         let plan = try AIPlanningContract.dataString(emptyPlan)
         let (directory, executable) = try fixture("""
