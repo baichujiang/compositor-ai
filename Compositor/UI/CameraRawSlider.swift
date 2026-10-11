@@ -162,7 +162,9 @@ final class CameraRawSliderView: NSSlider {
     func value(at point: NSPoint) -> Double {
         guard let cell = cell as? NSSliderCell else { return doubleValue }
         let knob = cell.knobRect(flipped: isFlipped)
-        let track = cell.trackRect.isEmpty ? bounds : cell.trackRect
+        // AppKit's tracking rectangle can follow the knob; the drawn bar stays fixed.
+        let bar = cell.barRect(flipped: isFlipped)
+        let track = bar.isEmpty ? bounds : bar
         let travel = track.width - knob.width
         guard travel > 0 else { return doubleValue }
         var fraction = min(1, max(0, (point.x - track.minX - knob.width / 2) / travel))

@@ -6,6 +6,7 @@
 - Saved Chinese/English language choice in the app menu, applied on reopening.
 - Chinese command and shortcut search, with English aliases for tools.
 - Localized blend-mode labels resolve through stable stored values; document data and command IDs remain compatible.
+- Fixed Camera Raw track-click values using the drawn bar rather than AppKit's moving tracking rectangle.
 - Native localization coverage for packaged resources, default language, command search and blend-mode mapping.
 
 ## 0.1.0 — 2026-10-11 (preview)
