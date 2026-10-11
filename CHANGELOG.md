@@ -3,9 +3,9 @@
 ## 0.4.1 — 2026-10-11 (preview)
 
 - Clarified Chinese layer Scale as “比例” and canvas-zoom help as “画布缩放”; the actual-pixels button now explains where the current zoom is displayed. Control positions and native navigation behavior are preserved.
-- Added explicit accessible names to the zoom buttons so the minus magnifier is announced as Zoom Out in Chinese.
+- Gave the zoom toolbar icons explicit localized label semantics. After creating a new project, the macOS accessibility snapshot can still duplicate the Zoom In description for Zoom Out; help text and the actual zoom-out action are correct. This remaining description issue is tracked in [#2](https://github.com/baichujiang/compositor-ai/issues/2), and VoiceOver behavior is unverified.
 - Added native-handler regression coverage for pinch, Command/Option scrolling, ordinary panning, Zoom-tool clicks/drags, anchor preservation and resize after zoom. Added empty transparent-canvas GPU/Core Graphics comparisons at 100%, 200% and 3200%.
-- A reported hardware pinch stopping at 100% was not reproduced in handler tests. GUI checks reached 125% using the toolbar and 200% using the Zoom tool; these do not establish physical trackpad delivery. The renderer, gesture handlers and adopted 1.4.8 baseline are unchanged.
+- The user retested a real trackpad pinch in the 0.4.1 Release app on a 1920×1080 canvas, starting at 100%, and confirmed it exceeded 100%; the current canvas status showed 191.4%. Toolbar zoom reached 125% and the Zoom tool reached 200% in separate GUI checks. The original reported cap was not reproduced; this release clarifies labels without changing the renderer, gesture handlers or adopted 1.4.8 baseline. Follow-up is recorded in [#1](https://github.com/baichujiang/compositor-ai/issues/1).
 
 ## 0.4.0 — 2026-10-11 (preview)
 
