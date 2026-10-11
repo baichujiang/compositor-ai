@@ -212,10 +212,10 @@ struct ContentView: View {
                 HStack(spacing: 0) {
                     Button { session.zoomKeyboard(by: 1) } label: {
                         Image(systemName: "plus.magnifyingglass")
-                    }.help("Zoom in (⌘+)").disabled(session.document == nil)
+                    }.help("Zoom in (⌘+)").accessibilityLabel("Zoom In").disabled(session.document == nil)
                     Button { session.zoomKeyboard(by: -1) } label: {
                         Image(systemName: "minus.magnifyingglass")
-                    }.help("Zoom out (⌘−)").disabled(session.document == nil)
+                    }.help("Zoom out (⌘−)").accessibilityLabel("Zoom Out").disabled(session.document == nil)
                 }
                 .padding(.horizontal, 4)
             }

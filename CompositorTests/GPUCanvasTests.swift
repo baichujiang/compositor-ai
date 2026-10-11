@@ -152,6 +152,18 @@ import Testing
                 "zoom \(zoom): mean \(difference.mean), over 12 levels \(difference.over * 100)%")
     }
 
+    @Test(arguments: [CGSize(width: 1920, height: 1080), CGSize(width: 40, height: 40)], [1.0, 2.0, 32.0])
+    func emptyTransparentCanvasMatchesCoreGraphics(size: CGSize, zoom: CGFloat) throws {
+        guard GPUCanvasRenderer.shared != nil else { return }
+        let session = EditorSession()
+        session.viewport.resize(to: CGSize(width: 500, height: 400), backingScale: 2, documentSize: nil)
+        session.createDocument(width: Int(size.width), height: Int(size.height))
+        session.zoom(to: zoom)
+        let difference = try compare(session, name: "transparent-\(Int(size.width))-\(Int(zoom * 100))")
+        #expect(difference.mean < 1.5 && difference.over < 0.01,
+                "empty checkerboard: mean \(difference.mean), over 12 levels \(difference.over * 100)%")
+    }
+
     /// Selected pixels being dragged: the GPU draws them from the lifted pixels, the Core Graphics canvas from the
     /// rebuilt tiles.
     @Test(arguments: [false, true])

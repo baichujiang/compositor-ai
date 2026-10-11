@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1 — 2026-10-11 (preview)
+
+- Clarified Chinese layer Scale as “比例” and canvas-zoom help as “画布缩放”; the actual-pixels button now explains where the current zoom is displayed. Control positions and native navigation behavior are preserved.
+- Added explicit accessible names to the zoom buttons so the minus magnifier is announced as Zoom Out in Chinese.
+- Added native-handler regression coverage for pinch, Command/Option scrolling, ordinary panning, Zoom-tool clicks/drags, anchor preservation and resize after zoom. Added empty transparent-canvas GPU/Core Graphics comparisons at 100%, 200% and 3200%.
+- A reported hardware pinch stopping at 100% was not reproduced in handler tests. GUI checks reached 125% using the toolbar and 200% using the Zoom tool; these do not establish physical trackpad delivery. The renderer, gesture handlers and adopted 1.4.8 baseline are unchanged.
+
 ## 0.4.0 — 2026-10-11 (preview)
 
 - Corrected Gemini login guidance after Google rejected the legacy CLI for an individual account, including on CLI 0.63.0. API key authentication uses separate API quotas and billing; Antigravity CLI uses a separate adapter rather than replacing the Gemini executable.

@@ -761,7 +761,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "实际像素（⌘1）"
+            "value": "设为 100% 实际像素（⌘1）；当前画布倍率见左下角"
           }
         }
       }
@@ -16741,7 +16741,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "缩放"
+            "value": "比例"
           }
         }
       }
@@ -16775,7 +16775,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "以中心为基准同步缩放宽度与高度"
+            "value": "以中心为基准调整图层宽高比例；画布缩放见左下角百分比"
           }
         }
       }
@@ -21297,7 +21297,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "缩放百分比"
+            "value": "画布缩放百分比"
           }
         }
       }
@@ -21314,7 +21314,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "缩放百分比（0.1–3200%）。按 Return 应用。"
+            "value": "画布缩放百分比（0.1–3200%）。按 Return 应用。"
           }
         }
       }

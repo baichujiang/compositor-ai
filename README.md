@@ -44,6 +44,8 @@ The editor defaults to **Simplified Chinese**, including menus, tool controls, d
 
 The native toolbar, project-tab width allocation, and manual tools retain the upstream layout. The AI panel starts closed and opens only when requested; it uses additional space beside the Layers panel while open. Its menu entry is appended after the native View commands and has no reserved shortcut, so existing and remapped native shortcuts keep their behavior.
 
+Canvas zoom is shown at the lower left and in the Zoom tool's percentage field. The Transform header's Scale is the layer scale; in Chinese 0.4.1 labels it “比例”. The fixed **100%** toolbar button sets actual-pixel zoom. Pinch or hold Command/Option while scrolling to zoom; ordinary scrolling pans. The adopted native zoom range is 0.1–3200%, with a pixel-grid overlay from 800% when enabled in View.
+
 ## What AI can do
 
 Select, rename, show/hide, change opacity and blend mode, move, scale, and rotate visible image/shape/text layers; add or update exposure, master saturation and black-and-white adjustments; zoom; undo and redo. Disable **Apply edits automatically** to inspect a proposed command list first.
