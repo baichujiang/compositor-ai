@@ -1,11 +1,13 @@
 # Compositor AI：Claude Code 与 Gemini CLI 扩展计划
 
+> 路径维护说明（0.5.0）：本文的原路径描述保留方案编写时的状态。现有后端、提示词与助手位于 `Compositor/AI/Core/`，面板位于 `Compositor/AI/UI/`，原生命令适配位于 `Compositor/AI/Integration/`；新增后端应只接入 Core 的后端协议，不能直接操作原生文档。Claude Code 仍只保留方案。
+
 日期：2026-10-11  
 状态：Gemini CLI 已在 v0.3.0 实现；按用户选择在 v0.4.0 新增 Antigravity CLI，继续使用 Google 账号。Claude Code 继续暂缓。下面原始方案保留为设计记录，实际接入以仓库代码及使用说明为准。
 基线：Compositor AI v0.1.0，`ai/integrated-assistant` 分支。  
 项目：[baichujiang/compositor-ai](https://github.com/baichujiang/compositor-ai)
 
-最初要求仅记录方案。用户之后授权接入 Gemini，并在个人账号登录被原客户端拒绝后选择适配 Antigravity CLI；尚未授权实施 Claude Code。当前实现为 Compositor AI v0.4.0，原生基线仍为 Compositor 1.4.8。
+最初要求仅记录方案。用户之后授权接入 Gemini，并在个人账号登录被原客户端拒绝后选择适配 Antigravity CLI；尚未授权实施 Claude Code。后端接入完成于 v0.4.0，当前 v0.5.0 进一步隔离 AI 与原生编辑器，原生基线仍为 Compositor 1.4.8。
 
 v0.3.0 实际实现：`AIBackend`、`AIBackendProvider`、`AIPlanningContract`、`AIGeminiCLIBackend`、`AIProcessRunner`，以及原 AI 面板中的后端选择和独立路径/模型设置。两种后端共用 `AIEditorCommands`，不改原生工具、布局、快捷键和文件格式。
 

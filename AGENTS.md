@@ -18,6 +18,7 @@ If you've been asked to make or change an image in a `.comp` project, you don't 
 
 - Preserve every adopted upstream manual editing capability. Reuse its tools, layout, toolbar positions, menu order, shortcut definitions, focus handling, and editor/history methods. AI limitations must never disable the corresponding manual operations.
 - Keep AI optional and its panel closed on launch. Append its menu entry after native View commands; do not insert AI controls into the native toolbar or reserve a shortcut outside the native shortcut conflict system.
+- Keep native dependencies inside `Compositor/AI/Integration/`. Core/UI must use `AIEditorGateway`; do not add AI state to EditorSession or ProjectWorkspace. Run `bash scripts/check-ai-boundaries.sh` before testing. CompositorApp is the composition root; ContentView supplies only generic optional extension hooks.
 - Keep enhancements in `Compositor/AI/` and localization in `Compositor/Localization/`, using small integration hooks. Translate display text without translating stored enum values, command IDs, shortcut IDs, or user content.
 - New agent providers may plan typed commands; they must use the same validation and native command bridge. Do not fork the renderer, document model, history, or manual interaction implementation for a provider.
 - Record deliberate native behavior fixes and distribution differences in `docs/native-compatibility.md` and CHANGELOG. Do not silently remove or redesign upstream features to simplify AI integration.

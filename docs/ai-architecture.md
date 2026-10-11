@@ -1,11 +1,12 @@
 # Integrated AI architecture
 
 ```
-Text + current document metadata + optional native canvas render
+Text + gateway JSON context + optional preview-data closure
   → selected local Codex / Gemini CLI / Antigravity CLI using the user’s own authentication
   → shared strict AIPlanningContract (JSON planning only)
   → AIEditPlan v1
-  → full validation against the captured document
+  → opaque request handle through AIEditorGateway
+  → Integration adapter: full validation against the captured native document
   → native editor methods inside one DocumentHistory transaction
   → live canvas, native undo/redo, ordinary .comp save/export
 ```
@@ -37,3 +38,7 @@ The app has its own bundle identifier and does not use the upstream updater. The
 ## Native editor boundary
 
 The adopted upstream editor owns rendering, document data, tools, focus, manual shortcuts and history. AI owns request planning, validation and its optional panel; localization owns display text. Provider adapters must return the same typed plan rather than implement their own edits. The panel starts closed, is appended beside the existing Layers panel when requested, and is toggled from the end of the native View menu. It adds no native toolbar control and reserves no shortcut. See [native compatibility](native-compatibility.md) for exceptions and upgrade validation.
+
+## Dependency enforcement (0.5.0)
+
+Core and the assistant panel do not reference EditorSession, CanvasDocument, ProjectSnapshot, ImageExporter or native history. `AIEditorGateway` returns JSON context, an opaque request handle and an optional async PNG-data closure; it validates, applies and releases handles. The native adapter owns all editor state and preserves the existing whole-plan/native-undo implementation. The composition root owns per-tab AI state and detaches closed tabs. Core/UI are type-checked as an independent module without native source files on every CI run; native AI references are restricted to CompositorApp. The application still ships as one executable, using the Foundation-only localization helper as a shared display dependency. See [the full boundary and upgrade procedure](ai-decoupling.md).

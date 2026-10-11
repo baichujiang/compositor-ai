@@ -3,6 +3,7 @@ import SwiftUI
 @main
 struct CompositorApp: App {
     @NSApplicationDelegateAdaptor(CompositorApplicationDelegate.self) private var applicationDelegate
+    @State private var aiIntegration = AIApplicationIntegration()
     @AppStorage("navigator.visible") private var showsNavigator = false
     @AppStorage("ui.interfaceLanguage") private var interfaceLanguage = "zh-Hans"
     private var session: EditorSession { applicationDelegate.session }
@@ -10,6 +11,7 @@ struct CompositorApp: App {
     var body: some Scene {
         Window("Compositor AI", id: "editor") {
             ProjectWorkspaceView(applicationDelegate: applicationDelegate).roundedControls()
+                .modifier(AIWorkspaceIntegration(integration: aiIntegration, workspace: applicationDelegate.workspace))
                 .environment(\.locale, AppLocalization.locale)
         }
             .defaultSize(width: 1180, height: 780)
@@ -178,8 +180,7 @@ struct CompositorApp: App {
                         }
                         Group {
                             Divider()
-                            Toggle(L("AI Assistant"), isOn: Binding(get: { session.showsAIAssistant },
-                                                                  set: { session.showsAIAssistant = $0 }))
+                            AIAssistantMenu(integration: aiIntegration, session: session)
                         }
                     }
                     // ⌘H toggles the Move tool's transform controls instead of hiding the app, so Hide keeps its

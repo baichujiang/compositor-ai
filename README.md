@@ -83,7 +83,7 @@ A public release that opens without Gatekeeper's unverified-developer warning re
 
 ## Upstream and compatibility
 
-The AI branch is based on **Compositor 1.4.8**, commit `22c7b8d5b23bb1e27a5746912061b23757c4f554`. The project's default branch is `ai/integrated-assistant`; `main` retains upstream history. AI changes are concentrated in `Compositor/AI/`, with small hooks in the editor UI and session.
+The AI branch is based on **Compositor 1.4.8**, commit `22c7b8d5b23bb1e27a5746912061b23757c4f554`. The project's default branch is `ai/integrated-assistant`; `main` retains upstream history. AI Core/UI use an editor gateway protocol and are compiled independently of native editor sources in CI. Native dependencies live in `Compositor/AI/Integration/`; EditorSession owns no AI state. The app attaches the optional panel through generic UI hooks. See [the dependency boundary](docs/ai-decoupling.md).
 
 The `.comp` format remains version **11**; AI adds ordinary native adjustment layers rather than private file fields. Opening a newer upstream format is subject to the original editor's compatibility rules. Upstream's Sparkle updater was removed, so official Compositor updates cannot replace this build. Compositor AI has its own bundle ID, preferences and release channel and can coexist with Compositor.
 

@@ -25,6 +25,9 @@ jobs:
       - name: Select Xcode 26.6
         run: sudo xcode-select -s /Applications/Xcode_26.6.app
 
+      - name: Check AI dependency boundary
+        run: bash scripts/check-ai-boundaries.sh
+
       - name: Build for testing
         id: build
         run: >

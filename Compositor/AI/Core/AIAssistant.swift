@@ -1,5 +1,4 @@
 import Foundation
-import CoreGraphics
 import Observation
 
 struct AIChatMessage: Identifiable {
@@ -15,10 +14,25 @@ final class AIAssistant {
     var isWorking = false
     var status = ""
     var pendingPlan: AIEditPlan?
-    @ObservationIgnored private var pendingToken: AIDocumentToken?
+    @ObservationIgnored private var pendingToken: AIRequestToken?
+    @ObservationIgnored private var pendingEditor: (any AIEditorGateway)?
     @ObservationIgnored private var request: Task<Void, Never>?
     @ObservationIgnored private var backend: (any AIBackend)?
     @ObservationIgnored private var requestID: UUID?
+    @ObservationIgnored private let makeBackend: (AIBackendRequest) -> any AIBackend
+
+    init(makeBackend: @escaping (AIBackendRequest) -> any AIBackend = {
+        $0.provider.backend(executable: $0.executable, model: $0.model, onStatus: $0.onStatus)
+    }) {
+        self.makeBackend = makeBackend
+    }
+
+    private func releasePending() {
+        if let token = pendingToken { pendingEditor?.release(token) }
+        pendingPlan = nil
+        pendingToken = nil
+        pendingEditor = nil
+    }
 
     func cancel() {
         requestID = nil
@@ -33,14 +47,12 @@ final class AIAssistant {
     func clear() {
         cancel()
         messages = []
-        pendingPlan = nil
-        pendingToken = nil
+        releasePending()
         status = ""
     }
 
     func discardPending() {
-        pendingPlan = nil
-        pendingToken = nil
+        releasePending()
         messages.append(AIChatMessage(isUser: false, text: L("Proposed changes discarded. The document was not changed.")))
         status = "Ready"
     }
@@ -51,44 +63,41 @@ final class AIAssistant {
         selectedProvider = provider
     }
 
-    func send(_ text: String, session: EditorSession, includeImage: Bool, autoApply: Bool, executablePath: String, provider: AIBackendProvider = .codex, model: String = "") {
+    func send(_ text: String, editor: any AIEditorGateway, includeImage: Bool, autoApply: Bool, executablePath: String, provider: AIBackendProvider = .codex, model: String = "") {
         guard !isWorking else { return }
         selectBackend(provider)
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return }
+        var captured: AIEditorRequest?
         do {
             guard text.count <= 8_000 else { throw AIAssistantError.message("Keep requests under 8,000 characters.") }
-            guard session.canEditLayers, session.effectsEditing == nil, session.colorPicker == nil, session.opacityEditLayerID == nil else {
+            guard editor.canSendRequest else {
                 throw AIAssistantError.message("Open a canvas and finish the current edit before sending a request.")
             }
             guard let executable = provider.findExecutable(customPath: executablePath) else {
                 throw AIAssistantError.message(LF("%@ was not found. Install it, sign in, or choose its executable in Settings.", provider.title))
             }
-            let token = try AIDocumentToken(session: session)
-            let context = try AIEditorCommands.context(session)
+            let capture = try editor.capture(includeImage: includeImage)
+            captured = capture
             let recent = messages.suffix(12).map { ["role": $0.isUser ? "user" : "assistant", "text": $0.text] }
-            let prompt = try AIPlanningContract.prompt(context: context, history: recent, request: text, includeImage: includeImage)
-            let snapshot = includeImage ? session.projectSnapshot() : nil
-            if includeImage, token.document.width * token.document.height > 25_000_000 {
-                throw AIAssistantError.message("Canvas images are limited to 25 megapixels for AI previews. Disable Include canvas image for this document.")
-            }
-            pendingPlan = nil
-            pendingToken = nil
+            let prompt = try AIPlanningContract.prompt(context: capture.context, history: recent, request: text, includeImage: includeImage)
+            releasePending()
             messages.append(AIChatMessage(isUser: true, text: text))
             if messages.count > 80 { messages.removeFirst(messages.count - 80) }
             let id = UUID()
-            let backend = provider.backend(executable: executable, model: model) { [weak self] status in
+            let backend = makeBackend(AIBackendRequest(provider: provider, executable: executable, model: model) { [weak self] status in
                 Task { @MainActor [weak self] in
                     if self?.requestID == id { self?.status = status }
                 }
-            }
+            })
             self.backend = backend
             requestID = id
             isWorking = true
             status = includeImage ? "Rendering canvas…" : "Thinking…"
             request = Task { [weak self] in
-                guard let self else { return }
+                guard let self else { editor.release(capture.token); return }
                 defer {
+                    if self.pendingToken != capture.token { editor.release(capture.token) }
                     if self.requestID == id {
                         self.isWorking = false
                         self.request = nil
@@ -97,16 +106,7 @@ final class AIAssistant {
                     }
                 }
                 do {
-                    var image: Data?
-                    if let snapshot {
-                        let raster = try await ImageExporter.shared.render(snapshot)
-                        try Task.checkCancellation()
-                        let ratio = min(1, 1400 / Double(max(raster.image.width, raster.image.height)))
-                        let resized = try await ImageExporter.shared.resized(raster,
-                            width: max(1, Int(Double(raster.image.width) * ratio)),
-                            height: max(1, Int(Double(raster.image.height) * ratio)))
-                        image = try await ImageExporter.shared.pngData(resized)
-                    }
+                    let image = includeImage ? try await capture.preview?() : nil
                     try Task.checkCancellation()
                     guard self.requestID == id else { return }
                     self.status = "Thinking…"
@@ -115,14 +115,15 @@ final class AIAssistant {
                     } onCancel: { backend.cancel() }
                     try Task.checkCancellation()
                     guard self.requestID == id else { return }
-                    try token.check(session)
+                    try editor.validate(capture.token)
                     if plan.actions.isEmpty { self.status = "Ready" }
                     else if autoApply {
-                        let count = try AIEditorCommands.apply(plan, to: session, token: token)
+                        let count = try editor.apply(plan, token: capture.token)
                         self.status = LF("Applied %lld commands. Undo with ⌘Z.", count)
                     } else {
                         self.pendingPlan = plan
-                        self.pendingToken = token
+                        self.pendingToken = capture.token
+                        self.pendingEditor = editor
                         self.status = LF("%lld commands ready to apply.", plan.actions.count)
                     }
                     self.messages.append(AIChatMessage(isUser: false, text: self.pendingPlan == nil ? plan.reply : LF("Proposed changes:\n%@", plan.reply)))
@@ -135,20 +136,22 @@ final class AIAssistant {
                     }
                 }
             }
-        } catch { status = error.localizedDescription }
+        } catch {
+            if let captured { editor.release(captured.token) }
+            status = error.localizedDescription
+        }
     }
 
-    func applyPending(to session: EditorSession) {
-        guard let plan = pendingPlan, let token = pendingToken else { return }
+    func applyPending() {
+        guard let plan = pendingPlan, let token = pendingToken, let editor = pendingEditor else { return }
         do {
-            let count = try AIEditorCommands.apply(plan, to: session, token: token)
+            let count = try editor.apply(plan, token: token)
             status = LF("Applied %lld commands. Undo with ⌘Z.", count)
             messages.append(AIChatMessage(isUser: false, text: status))
         } catch {
             status = error.localizedDescription
             messages.append(AIChatMessage(isUser: false, text: LF("No changes applied. %@", error.localizedDescription)))
         }
-        pendingPlan = nil
-        pendingToken = nil
+        releasePending()
     }
 }

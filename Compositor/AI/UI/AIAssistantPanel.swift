@@ -2,8 +2,9 @@ import SwiftUI
 import AppKit
 
 struct AIAssistantPanel: View {
-    @Bindable var session: EditorSession
+    let editor: any AIEditorGateway
     @Bindable var assistant: AIAssistant
+    var hide: () -> Void
     @AppStorage("ai.includeCanvas") private var includeCanvas = false
     @AppStorage("ai.autoApply") private var autoApply = true
     @AppStorage("ai.codexPath") private var codexPath = ""
@@ -29,7 +30,7 @@ struct AIAssistantPanel: View {
                 Label("AI Assistant", systemImage: "sparkles").font(.headline)
                 Spacer()
                 Button { assistant.clear() } label: { Image(systemName: "arrow.counterclockwise") }.help("Clear conversation")
-                Button { session.showsAIAssistant = false } label: { Image(systemName: "xmark") }.help("Hide AI Assistant")
+                Button(action: hide) { Image(systemName: "xmark") }.help("Hide AI Assistant")
             }
             Picker("AI backend", selection: $providerValue) {
                 ForEach(AIBackendProvider.allCases) { Text($0.title).tag($0.rawValue) }
@@ -68,7 +69,7 @@ struct AIAssistantPanel: View {
                         }
                     }.frame(maxHeight: 100)
                     HStack {
-                        Button("Apply Changes") { assistant.applyPending(to: session) }.buttonStyle(.borderedProminent)
+                        Button("Apply Changes") { assistant.applyPending() }.buttonStyle(.borderedProminent)
                             .accessibilityIdentifier("aiApply")
                         Button("Discard") { assistant.discardPending() }
                     }
@@ -100,7 +101,7 @@ struct AIAssistantPanel: View {
                 if assistant.isWorking { Button("Cancel") { assistant.cancel() } }
                 else {
                     Button("Send") { send() }.buttonStyle(.borderedProminent)
-                        .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !session.canEditLayers)
+                        .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !editor.canSendRequest)
                         .accessibilityIdentifier("aiSend")
                 }
                 Spacer()
@@ -146,14 +147,14 @@ struct AIAssistantPanel: View {
 
     private func send() {
         let text = prompt
-        assistant.send(text, session: session, includeImage: includeCanvas && provider.supportsCanvasImage, autoApply: autoApply,
+        assistant.send(text, editor: editor, includeImage: includeCanvas && provider.supportsCanvasImage, autoApply: autoApply,
                        executablePath: executablePath.wrappedValue, provider: provider,
                        model: provider == .antigravity ? antigravityModel : geminiModel)
         if assistant.isWorking { prompt = "" }
     }
 
     private func describe(_ action: AIEditorCommand) -> String {
-        let name = session.document?.layers.first(where: { $0.id == action.layerID })?.name ?? L("Canvas")
+        let name = editor.layerName(for: action.layerID) ?? L("Canvas")
         var detail = action.kind.title + " · " + name
         if let value = action.value { detail += " · \(value.formatted())" }
         if let x = action.x, let y = action.y { detail += " · (\(x.formatted()), \(y.formatted()))" }

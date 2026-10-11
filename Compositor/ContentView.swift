@@ -6,6 +6,7 @@ struct ContentView: View {
     @AppStorage("layersPanelWidth") private var layersPanelWidth = 252.0
     @AppStorage("navigator.visible") private var showsNavigator = false
     @Bindable var session: EditorSession
+    @Environment(\.editorExtensions) private var editorExtensions
     var applicationDelegate: CompositorApplicationDelegate? = nil
     @Environment(\.openWindow) private var openWindow
     @State private var canvasFrame: CGRect = .zero
@@ -119,10 +120,7 @@ struct ContentView: View {
                 if !session.canvasOnly {
                     PanelResizeEdge(width: $layersPanelWidth, range: LayersPanel.widths)
                     LayersPanel(session: session, width: layersPanelWidth)
-                    if session.showsAIAssistant {
-                        Divider()
-                        AIAssistantPanel(session: session, assistant: session.aiAssistant)
-                    }
+                    editorExtensions.sidebar(session)
                 }
             }
             if !session.canvasOnly {
@@ -282,7 +280,7 @@ struct ContentView: View {
         .onChange(of: session.document == nil) { _, empty in
             if !empty { session.canvasFocusRequest += 1 }
         }
-        .onChange(of: session.document?.id) { _, _ in session.aiAssistant.clear() }
+        .onChange(of: session.document?.id) { _, _ in editorExtensions.documentChanged(session) }
         .fileImporter(isPresented: $session.showsImporter,
                       allowedContentTypes: UTType.importableImages, allowsMultipleSelection: true) { result in
             switch result {

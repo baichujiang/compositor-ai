@@ -1,5 +1,12 @@
 import Foundation
 
+nonisolated struct AIBackendRequest: Sendable {
+    let provider: AIBackendProvider
+    let executable: URL
+    let model: String
+    let onStatus: @Sendable (String) -> Void
+}
+
 nonisolated protocol AIBackend: Sendable {
     func plan(prompt: String, preview: Data?) throws -> AIEditPlan
     func cancel()

@@ -101,8 +101,6 @@ enum NavigationTool: String, CaseIterable {
 
 @Observable
 final class EditorSession {
-    let aiAssistant = AIAssistant()
-    var showsAIAssistant = false
     var skipsInitialClipboardCanvasSize = false
     var document: CanvasDocument?
     var canvasFocusRequest = 0

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 — 2026-10-11 (preview)
+
+- Removed AI chat and panel state from native EditorSession. The app composition root now owns per-tab assistant state and attaches optional UI through generic editor extension hooks; the native editor can run with the empty default hooks.
+- Split AI Core, UI and Integration. Assistant planning and its panel use an AIEditorGateway protocol, JSON context, opaque request handles and optional preview data. Native document snapshots, rendering, whole-plan validation and undo execution remain in the adapter.
+- Pending plans keep their original gateway. Requests release captures on success, error, cancellation and discard; closing a tab cancels its assistant and detaches its adapter without retaining the native session.
+- Added independent compilation of AI Core/UI without native editor sources and a native-dependency check to local tests and GitHub CI, plus gateway, preview and lifecycle regression coverage.
+- Preserved the v1 planning protocol, existing provider restrictions and account preferences, manual editing layout/shortcuts, native execution methods, Chinese terminology, independent icon and Compositor 1.4.8 baseline. This is source/protocol separation, not a dynamically loaded binary plugin or automatic upstream compatibility guarantee.
+
 ## 0.4.3 — 2026-10-11 (preview)
 
 - Reviewed the Chinese catalog and refined 79 existing translations for tonal controls, vignettes, sampling, masks, selections and filter parameters; documented the terminology and individual changes in `docs/chinese-terminology.md`.

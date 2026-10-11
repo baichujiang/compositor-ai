@@ -2,6 +2,7 @@
 set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 derived_dir="${COMPOSITOR_AI_DERIVED_DATA:-$project_dir/build/DerivedData}"
+bash "$project_dir/scripts/check-ai-boundaries.sh"
 xcodebuild build-for-testing -project "$project_dir/Compositor.xcodeproj" -scheme Compositor \
   -destination 'platform=macOS,arch=arm64' -configuration Debug -derivedDataPath "$derived_dir" CODE_SIGN_IDENTITY=-
 xcodebuild test-without-building -project "$project_dir/Compositor.xcodeproj" -scheme Compositor \

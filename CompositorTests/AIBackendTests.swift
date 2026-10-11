@@ -216,16 +216,17 @@ struct AIBackendTests {
         defer { try? FileManager.default.removeItem(at: directory) }
         let session = EditorSession(); session.createDocument(width: 40, height: 40)
         let before = session.document, count = session.history.undoCount, assistant = AIAssistant()
-        assistant.send("更亮", session: session, includeImage: false, autoApply: true, executablePath: executable.path, provider: .gemini)
+        let editor = AINativeEditorAdapter(session: session)
+        assistant.send("更亮", editor: editor, includeImage: false, autoApply: true, executablePath: executable.path, provider: .gemini)
         try await waitForAssistant(assistant)
         #expect(session.history.undoCount == count + 1)
         session.undo(); #expect(session.document == before)
-        assistant.send("更亮", session: session, includeImage: false, autoApply: false, executablePath: executable.path, provider: .gemini)
+        assistant.send("更亮", editor: editor, includeImage: false, autoApply: false, executablePath: executable.path, provider: .gemini)
         try await waitForAssistant(assistant)
         #expect(assistant.pendingPlan != nil)
         session.createDocument(width: 60, height: 60)
         let changed = session.document
-        assistant.applyPending(to: session)
+        assistant.applyPending()
         #expect(session.document == changed && assistant.pendingPlan == nil)
     }
     @Test func switchingProviderDiscardsHistoryPendingPlansAndLateResults() async throws {
@@ -233,7 +234,8 @@ struct AIBackendTests {
         defer { try? FileManager.default.removeItem(at: directory) }
         let session = EditorSession(); session.createDocument(width: 40, height: 40)
         let assistant = AIAssistant()
-        assistant.send("你好", session: session, includeImage: false, autoApply: false, executablePath: executable.path, provider: .gemini)
+        let editor = AINativeEditorAdapter(session: session)
+        assistant.send("你好", editor: editor, includeImage: false, autoApply: false, executablePath: executable.path, provider: .gemini)
         try await Task.sleep(for: .milliseconds(150))
         assistant.selectBackend(.codex)
         assistant.messages.append(AIChatMessage(isUser: true, text: "new provider"))

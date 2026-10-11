@@ -19,7 +19,7 @@
 | 工具栏、项目标签、工具顺序、原生菜单与快捷键 | 保留上游布局和既有项目顺序。新增命令追加到适合的菜单末尾；不得绕过原生冲突系统占用快捷键。 |
 | 文档、保存、导入、导出、撤销与重做 | 使用原生模型及历史。保留上游格式迁移和文件限制；AI 不增加文件字段。 |
 | 中文界面 | 集中在 `Compositor/Localization/`；UI 调用只翻译显示文字，保留原始枚举、命令 ID、快捷键 ID 以及用户内容。 |
-| AI 面板及命令桥 | 集中在 `Compositor/AI/`；仅通过少量会话、视图与菜单钩子接入。侧栏按需打开，可随时关闭；关闭时恢复原有编辑布局。 |
+| AI 面板及命令桥 | Core/UI 只依赖编辑器协议；原生依赖集中在 `Compositor/AI/Integration/`。应用持有每个标签页的 AI 状态，原生会话不持有 AI。通过通用可选 UI 钩子接入，侧栏关闭时恢复原有编辑布局。 |
 | 模型后端 | Codex、Gemini CLI、Antigravity CLI 负责生成统一的类型化计划，共用校验和原生命令桥，不复制编辑器核心。Claude Code 仍仅保留方案。 |
 
 新增功能若需要调整原生工具，应先说明必要性、列出行为差异，并验证相应手动流程。兼容修复单独记录，方便与上游对比、合并或在上游修复后移除。
@@ -34,11 +34,13 @@ git diff --exit-code 22c7b8d5b23bb1e27a5746912061b23757c4f554 -- Compositor/Rend
 git diff --exit-code 22c7b8d5b23bb1e27a5746912061b23757c4f554 -- Compositor/Document/DocumentHistory.swift Compositor/Document/EditorSession+Brush.swift Compositor/Document/Selection.swift Compositor/Document/SelectionEdits.swift Compositor/Document/LayerTransform.swift Compositor/Document/Filters.swift Compositor/IO/ImageExporter.swift
 ```
 
-这些原生核心源码与基线一致。0.2.1 的工具栏代码与原生 `ShortcutDefinition` 定义也已逐段对比一致，没有删除任何上游 `Compositor/` 源码文件。`EditorSession` 增加 AI 会话和侧栏状态，PSD 确认文字做本地化；`ContentView` 增加可选侧栏及对话重置钩子。其余原生 UI、项目控制器、蒙版确认与工作区的改动主要是显示文字本地化。混合模式选择将显示标题和存储枚举分离，以保持中文菜单的选择、预览和提交含义；命令搜索增加中文与英文工具名称匹配。
+这些原生核心源码与基线一致。0.2.1 的工具栏代码与原生 `ShortcutDefinition` 定义也已逐段对比一致，没有删除任何上游 `Compositor/` 源码文件。0.5.0 已移除 `EditorSession` 中的 AI 会话和侧栏状态，保留 PSD 确认文字的本地化；`ContentView` 只提供通用可选侧栏及文档变更通知钩子，由应用接入层安装 AI 扩展。其余原生 UI、项目控制器、蒙版确认与工作区的改动主要是显示文字本地化。混合模式选择将显示标题和存储枚举分离，以保持中文菜单的选择、预览和提交含义；命令搜索增加中文与英文工具名称匹配。
 
 原生功能包括图层与文件夹、混合模式、图层及实时蒙版、裁剪蒙版、变换与自由扭曲、多种选区、画笔与修复、文字与形状、调整层与图层效果、Camera Raw、滤镜、项目标签、原生快捷键设置、导入、保存和导出。详细上游功能表见 [上游 README](UPSTREAM-README.md)。源码沿用与现有回归测试是证据；仍需按下面清单逐项人工核对，才能对完整交互一致性作更强的结论。
 
 ## 明确保留的差异
+
+- 0.5.0 移除原生会话中的 AI 状态，改由应用接入层管理；AI 核心和面板使用 `AIEditorGateway`，原生快照、渲染、整批校验与命令执行集中到适配层。文档模型、历史、原生工具与渲染方法没有重写。CI 额外独立编译 AI Core/UI 并禁止原生源码重新引用 AI 类型/状态（应用装配入口除外），详见 [解耦说明](ai-decoupling.md)。
 
 - AI 面板开启时，在原图层面板右侧使用额外空间；关闭后保留原版布局。入口追加在“显示”菜单末尾，不插入工具栏、不改变原生命令相对顺序，也不保留固定 AI 快捷键，以免与用户改键冲突。
 - AI 请求增加整批命令校验、过期文档拒绝及一次请求整体撤销。手动操作继续使用原生历史逻辑。
