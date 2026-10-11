@@ -84,7 +84,7 @@ nonisolated final class AICodexBackend: @unchecked Sendable {
             if logs.contains("unexpected argument") || logs.contains("unknown variant") {
                 throw AIAssistantError.message("Update Codex CLI to a current version, or select the bundled CLI in Settings.")
             }
-            throw AIAssistantError.message("Codex could not complete this request (exit \(process.terminationStatus)). Check your login, connection, and usage limit.")
+            throw AIAssistantError.message(LF("Codex could not complete this request (exit %d). Check your login, connection, and usage limit.", process.terminationStatus))
         }
         return try JSONDecoder().decode(AIEditPlan.self, from: data)
     }

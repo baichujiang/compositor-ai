@@ -81,7 +81,7 @@ struct ExportAsSheet: View {
                 GridRow {
                     Text("Format")
                     Picker("Format", selection: $format) {
-                        ForEach(ExportFormat.allCases, id: \.self) { Text($0.rawValue).tag($0) }
+                        ForEach(ExportFormat.allCases, id: \.self) { Text(L($0.rawValue)).tag($0) }
                     }
                     .pickerStyle(.segmented).labelsHidden().fixedSize()
                 }
@@ -125,10 +125,10 @@ struct ExportAsSheet: View {
                 }
             }
             HStack(spacing: 12) {
-                Text(format == .png ? "Transparency kept · sRGB" : "sRGB")
+                Text(L(format == .png ? "Transparency kept · sRGB" : "sRGB"))
                     .foregroundStyle(.secondary)
                 Spacer()
-                if let error { Text(error).foregroundStyle(.red) }
+                if let error { Text(L(error)).foregroundStyle(.red) }
                 else if isReady, let result {
                     Text(ByteCountFormatter.string(fromByteCount: Int64(result.data.count), countStyle: .file)).monospacedDigit()
                 } else { Text("Updating…").foregroundStyle(.secondary) }

@@ -36,18 +36,20 @@ jobs:
           -derivedDataPath DerivedData
           CODE_SIGN_IDENTITY=-
 
-      # These two suites show real windows and time them, so they run alone after the rest.
-      - name: Run unit tests in parallel
+      # AppKit menus and preferences are global; avoid concurrent native UI state changes.
+      # Window and slider drawing suites run separately after the rest.
+      - name: Run unit tests
         run: >
           xcodebuild test-without-building
           -project Compositor.xcodeproj
           -scheme Compositor
           -destination 'platform=macOS,arch=arm64'
           -derivedDataPath DerivedData
-          -resultBundlePath ParallelResults.xcresult
-          -parallel-testing-enabled YES
+          -resultBundlePath UnitResults.xcresult
+          -parallel-testing-enabled NO
           -skip-testing:CompositorTests/FloatingPanelTests
           -skip-testing:CompositorTests/SliderSnapTests
+          -skip-testing:CompositorTests/CameraRawSliderTests
 
       - name: Run window tests serially
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
@@ -61,6 +63,7 @@ jobs:
           -parallel-testing-enabled NO
           -only-testing:CompositorTests/FloatingPanelTests
           -only-testing:CompositorTests/SliderSnapTests
+          -only-testing:CompositorTests/CameraRawSliderTests
 
       - name: Upload test results
         if: failure()

@@ -8,7 +8,7 @@ An **unofficial, MIT-licensed fork** of [Compositor](https://github.com/robbieti
 
 1. Use an **Apple Silicon Mac running macOS 26 or later**.
 2. Download the ZIP from this repository's Releases, unzip it, and move **Compositor AI.app** to Applications.
-3. This first preview is **ad hoc signed and not notarized**. macOS may block the download. Follow Apple's [instructions for opening a trusted app](https://support.apple.com/en-us/102445), or build the source yourself. Do not turn off Gatekeeper globally.
+3. This preview is **ad hoc signed and not notarized**. macOS may block the download. Follow Apple's [instructions for opening a trusted app](https://support.apple.com/en-us/102445), or build the source yourself. Do not turn off Gatekeeper globally.
 4. Install a current [Codex CLI](https://github.com/openai/codex) and run `codex login`, or sign in to the Codex desktop app on this Mac. Each person uses their own account and usage allowance. The app does not include shared AI credits.
 5. Open an image or `.comp` project, use the **AI** toolbar button, and describe an edit. For spatial requests, enable **Include canvas image**.
 
@@ -21,6 +21,10 @@ Examples:
 - “Make the whole image a little brighter.”
 - “Rename the selected layer to Foreground.”
 - “Undo the last edit.”
+
+## Interface language
+
+The editor defaults to **Simplified Chinese**, including menus, tool controls, dialogs and the AI assistant. To use English, choose **Compositor AI → 界面语言 / Interface Language → English**, then quit and reopen the app. The choice is saved for this app only. Document names, layer names, typed text and the `.comp` format remain unchanged. Command search accepts Chinese tool names and their English aliases.
 
 ## What AI can do
 

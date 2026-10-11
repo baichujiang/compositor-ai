@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-10-11 (preview)
+
+- Simplified Chinese by default across menus, tools, parameters, dialogs, help and AI controls.
+- Saved Chinese/English language choice in the app menu, applied on reopening.
+- Chinese command and shortcut search, with English aliases for tools.
+- Localized blend-mode labels resolve through stable stored values; document data and command IDs remain compatible.
+- Native localization coverage for packaged resources, default language, command search and blend-mode mapping.
+
 ## 0.1.0 — 2026-10-11 (preview)
 
 - Integrated AI chat panel in the native editor, with optional canvas-image understanding.

@@ -30,7 +30,7 @@ struct AIAssistantPanel: View {
                         }
                         ForEach(assistant.messages) { message in
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(message.isUser ? "You" : "AI").font(.caption.bold()).foregroundStyle(.secondary)
+                                Text(L(message.isUser ? "You" : "AI")).font(.caption.bold()).foregroundStyle(.secondary)
                                 Text(message.text).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
                             }
                             .padding(10)
@@ -61,7 +61,7 @@ struct AIAssistantPanel: View {
             if !assistant.status.isEmpty {
                 HStack(alignment: .top) {
                     if assistant.isWorking { ProgressView().controlSize(.small) }
-                    Text(assistant.status).font(.caption).textSelection(.enabled)
+                    Text(L(assistant.status)).font(.caption).textSelection(.enabled)
                         .accessibilityIdentifier("aiStatus")
                 }
             }
@@ -93,7 +93,7 @@ struct AIAssistantPanel: View {
 
     private var settings: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(AICodexBackend.findExecutable(customPath: codexPath) == nil ? "Codex CLI not found" : "Codex CLI detected")
+            Text(L(AICodexBackend.findExecutable(customPath: codexPath) == nil ? "Codex CLI not found" : "Codex CLI detected"))
                 .font(.caption.bold())
             Text("Use your own Codex login. Install Codex CLI and run codex login, or sign in to the Codex desktop app.")
                 .font(.caption).foregroundStyle(.secondary)
@@ -119,12 +119,12 @@ struct AIAssistantPanel: View {
     }
 
     private func describe(_ action: AIEditorCommand) -> String {
-        let name = session.document?.layers.first(where: { $0.id == action.layerID })?.name ?? "Canvas"
-        var detail = action.kind.rawValue + " · " + name
+        let name = session.document?.layers.first(where: { $0.id == action.layerID })?.name ?? L("Canvas")
+        var detail = action.kind.title + " · " + name
         if let value = action.value { detail += " · \(value.formatted())" }
         if let x = action.x, let y = action.y { detail += " · (\(x.formatted()), \(y.formatted()))" }
-        if let text = action.text { detail += " · " + text }
-        if let visible = action.visible { detail += visible ? " · show" : " · hide" }
+        if let text = action.text { detail += " · " + (action.kind == .blend ? L(text) : text) }
+        if let visible = action.visible { detail += " · " + L(visible ? "Show" : "Hide") }
         return detail
     }
 }

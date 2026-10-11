@@ -63,8 +63,8 @@ struct TypeControls: View {
                                     .contentShape(RoundedRectangle(cornerRadius: 4))
                             }
                             .buttonStyle(.plain)
-                            .help("Align " + alignment.rawValue.lowercased())
-                            .accessibilityLabel("Align " + alignment.rawValue.lowercased())
+                            .help(LF("Align %@", L(alignment.rawValue)))
+                            .accessibilityLabel(LF("Align %@", L(alignment.rawValue)))
                             .accessibilityAddTraits(selected ? .isSelected : [])
                         }
                     }
@@ -119,7 +119,7 @@ private struct TypeFontPicker: NSViewRepresentable {
         button.cell?.lineBreakMode = .byTruncatingTail
         button.cell?.usesSingleLineMode = true
         button.cell?.alignment = .left
-        button.setAccessibilityLabel("Font")
+        button.setAccessibilityLabel(L("Font"))
         button.target = context.coordinator
         button.action = #selector(Coordinator.choose(_:))
         button.menu?.delegate = context.coordinator
@@ -141,7 +141,7 @@ private struct TypeFontPicker: NSViewRepresentable {
     }
 
     /// Selected letters in more than one face: the menu says so with an item of its own at the top, which isn't a font.
-    private static let multiple = "(Multiple)"
+    private static let multiple = L("(Multiple)")
     private static func isMultiple(_ item: NSMenuItem?) -> Bool { item?.representedObject as? String == multiple }
     static func showMultiple(in button: NSPopUpButton) {
         if !isMultiple(button.item(at: 0)) {

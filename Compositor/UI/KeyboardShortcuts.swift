@@ -172,9 +172,9 @@ final class ShortcutSettings {
                 return "Text-editing shortcuts need Command, Option, or Control so they do not replace normal typing."
             }
             if [ShortcutChord("q", 1), ShortcutChord(",", 1), ShortcutChord("m", 3)].contains(chord) {
-                return "\(chord.label) is reserved by macOS."
+                return LF("%@ is reserved by macOS.", chord.label)
             }
-            if let other = assigned[chord] { return "\(chord.label) is assigned to both \(other) and \(definition.title)." }
+            if let other = assigned[chord] { return LF("%@ is assigned to both %@ and %@.", chord.label, L(other), L(definition.title)) }
             assigned[chord] = definition.title
         }
         return nil
@@ -240,10 +240,10 @@ private struct KeyboardShortcutsSheet: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 6) {
                     ForEach(["Menus", "Canvas & Layers", "Text Editing"], id: \.self) { group in
-                        Text(group).font(.headline).padding(.top, 8)
-                        ForEach(ShortcutDefinition.all.filter { $0.group == group && (search.isEmpty || $0.title.localizedCaseInsensitiveContains(search)) }) { definition in
+                        Text(L(group)).font(.headline).padding(.top, 8)
+                        ForEach(ShortcutDefinition.all.filter { $0.group == group && (search.isEmpty || $0.title.localizedCaseInsensitiveContains(search) || L($0.title).localizedCaseInsensitiveContains(search)) }) { definition in
                             HStack {
-                                Text(definition.title)
+                                Text(L(definition.title))
                                 Spacer()
                                 ShortcutRecorder(chord: draft[definition.id] ?? definition.original,
                                     recording: recording == definition.id,
@@ -264,7 +264,7 @@ private struct KeyboardShortcutsSheet: View {
             }.frame(height: 465)
             // Only a conflict takes room here; an empty line left a wide gap above the buttons.
             if let problem = ShortcutSettings.problem(in: draft) {
-                Text(problem)
+                Text(L(problem))
                     .foregroundStyle(.orange).font(.callout).lineLimit(2)
                     .frame(height: 22, alignment: .topLeading)
             }
@@ -289,8 +289,8 @@ private struct ShortcutRecorder: NSViewRepresentable {
     func makeNSView(context: Context) -> RecorderButton { RecorderButton() }
     func updateNSView(_ button: RecorderButton, context: Context) {
         button.start = start; button.finish = finish; button.recording = recording
-        button.title = recording ? "Press keys…" : chord.label
-        button.setAccessibilityLabel(recording ? "Press a shortcut" : chord.label)
+        button.title = recording ? L("Press keys…") : chord.label
+        button.setAccessibilityLabel(recording ? L("Press a shortcut") : chord.label)
         if recording, button.window?.firstResponder !== button { button.window?.makeFirstResponder(button) }
     }
     final class RecorderButton: NSButton {

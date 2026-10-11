@@ -40,7 +40,7 @@ final class AIAssistant {
     func discardPending() {
         pendingPlan = nil
         pendingToken = nil
-        messages.append(AIChatMessage(isUser: false, text: "Proposed changes discarded. The document was not changed."))
+        messages.append(AIChatMessage(isUser: false, text: L("Proposed changes discarded. The document was not changed.")))
         status = "Ready"
     }
 
@@ -109,19 +109,19 @@ final class AIAssistant {
                     if plan.actions.isEmpty { self.status = "Ready" }
                     else if autoApply {
                         let count = try AIEditorCommands.apply(plan, to: session, token: token)
-                        self.status = "Applied \(count) command\(count == 1 ? "" : "s"). Undo with ⌘Z."
+                        self.status = LF("Applied %lld commands. Undo with ⌘Z.", count)
                     } else {
                         self.pendingPlan = plan
                         self.pendingToken = token
-                        self.status = "\(plan.actions.count) command\(plan.actions.count == 1 ? "" : "s") ready to apply."
+                        self.status = LF("%lld commands ready to apply.", plan.actions.count)
                     }
-                    self.messages.append(AIChatMessage(isUser: false, text: self.pendingPlan == nil ? plan.reply : "Proposed changes:\n" + plan.reply))
+                    self.messages.append(AIChatMessage(isUser: false, text: self.pendingPlan == nil ? plan.reply : LF("Proposed changes:\n%@", plan.reply)))
                 } catch is CancellationError {
                     if self.requestID == id { self.status = "Canceled. The document was not changed." }
                 } catch {
                     if self.requestID == id {
                         self.status = error.localizedDescription
-                        self.messages.append(AIChatMessage(isUser: false, text: "No changes applied. " + error.localizedDescription))
+                        self.messages.append(AIChatMessage(isUser: false, text: LF("No changes applied. %@", error.localizedDescription)))
                     }
                 }
             }
@@ -132,11 +132,11 @@ final class AIAssistant {
         guard let plan = pendingPlan, let token = pendingToken else { return }
         do {
             let count = try AIEditorCommands.apply(plan, to: session, token: token)
-            status = "Applied \(count) commands. Undo with ⌘Z."
+            status = LF("Applied %lld commands. Undo with ⌘Z.", count)
             messages.append(AIChatMessage(isUser: false, text: status))
         } catch {
             status = error.localizedDescription
-            messages.append(AIChatMessage(isUser: false, text: "No changes applied. " + error.localizedDescription))
+            messages.append(AIChatMessage(isUser: false, text: LF("No changes applied. %@", error.localizedDescription)))
         }
         pendingPlan = nil
         pendingToken = nil

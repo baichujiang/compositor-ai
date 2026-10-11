@@ -84,12 +84,13 @@ final class CommandPaletteController {
         if isOpen { close(); return }
         self.window = window
         let bar = menu ?? NSApp.mainMenu
-        let entries = (bar.map { CommandPaletteMenu.entries(in: $0, skipping: Self.skipped) } ?? []) + CommandPaletteEntry.layerCommands(for: session)
+        let skipped = Self.skipped.union(Self.skipped.map(L))
+        let entries = (bar.map { CommandPaletteMenu.entries(in: $0, skipping: skipped) } ?? []) + CommandPaletteEntry.layerCommands(for: session)
             + CommandPaletteEntry.tools(for: session)
         let model = CommandPaletteModel(entries: entries)
         let panel = self.panel ?? makePanel()
         let host = NSHostingView(rootView: CommandPaletteView(model: model, run: { [weak self] in self?.run($0) },
-                                                             close: { [weak self] in self?.close() }))
+                                                             close: { [weak self] in self?.close() }).environment(\.locale, AppLocalization.locale))
         // The panel keeps the size given below rather than growing to what SwiftUI would like.
         host.sizingOptions = []
         host.frame = NSRect(x: 0, y: 0, width: 460, height: 290)
