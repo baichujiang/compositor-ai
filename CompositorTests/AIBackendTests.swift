@@ -102,7 +102,7 @@ struct AIBackendTests {
             } catch AIAssistantError.message(let message) {
                 #expect(message.hasPrefix("Google rejected this Gemini CLI client"))
                 #expect(message.contains("separate API quotas and billing"))
-                #expect(message.contains("Antigravity CLI requires a separate integration"))
+                #expect(message.contains("Select Antigravity CLI for Google sign-in"))
                 #expect(AppLocalization.text(message, language: "zh-Hans").contains("独立 API 额度和计费"))
             }
         }

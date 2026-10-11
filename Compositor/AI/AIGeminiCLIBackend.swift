@@ -85,7 +85,7 @@ nonisolated final class AIGeminiCLIBackend: AIBackend, @unchecked Sendable {
                 + (envelope == nil ? String(decoding: data, as: UTF8.self) : "")
             if diagnostic.localizedCaseInsensitiveContains("UNSUPPORTED_CLIENT")
                 || diagnostic.localizedCaseInsensitiveContains("no longer supported for Gemini Code Assist") {
-                throw AIAssistantError.message("Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration.")
+                throw AIAssistantError.message("Google rejected this Gemini CLI client for your account. Select Antigravity CLI for Google sign-in, or use Gemini API Key with separate API quotas and billing.")
             }
             if diagnostic.localizedCaseInsensitiveContains("auth") || diagnostic.contains("401") || diagnostic.localizedCaseInsensitiveContains("sign in") {
                 throw AIAssistantError.message("Authenticate Gemini CLI in Terminal, then try again. Run gemini; use Gemini API Key if Google sign-in rejects this client.")

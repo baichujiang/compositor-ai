@@ -7,10 +7,22 @@
 1. 准备 Apple Silicon Mac，系统须为 **macOS 26 或更新版本**。
 2. 从 [Releases](https://github.com/baichujiang/compositor-ai/releases) 下载 ZIP，解压，将 **Compositor AI.app** 放到“应用程序”。
 3. 当前版本是测试预览，仅有临时签名，**尚未通过 Apple 公证**。系统可能拦截来自网络的安装包。确认下载来源后，按 [Apple 官方说明](https://support.apple.com/zh-cn/102445) 为这一个应用授权打开，或自行编译源码。不要全局关闭系统安全检查。
-4. 可选 **Codex** 或 **Gemini CLI**。Codex 可运行 `codex login`，也可登录本机 Codex 桌面应用。Gemini 需要安装 [Gemini CLI](https://geminicli.com/docs/get-started/installation/) **0.63.0 或更新版本**，在终端运行 `gemini` 并完成认证。**个人账号的 Google 登录可能被服务端拒绝，请先阅读下方认证说明。** 每个人使用自己的凭据和额度，本应用不提供共享额度。
+4. 可选 **Codex**、**Antigravity CLI（Google 账号）** 或 **Gemini CLI（Google 登录受限时可用 API Key）**。Codex 可运行 `codex login`，也可登录本机 Codex 桌面应用。Google 账号接入请使用 **Antigravity CLI 1.3.3**，在终端运行 `agy` 完成登录；原 Gemini 接入要求 CLI 0.63.0 或更新版本。详细步骤见下方。每个人使用自己的凭据和额度，本应用不提供共享额度。
 5. 用正常的打开/导入功能加载图片或 `.comp` 工程，选择 **显示 → AI 助手**，选择“AI 后端”，在输入框用中文描述修改。
 
-如果没有找到对应 CLI，可在 AI 面板的“设置”中选择其可执行文件。自动查找包含常规安装路径和 NVM 的 Node 目录。“已找到”只代表文件存在，不代表已登录。Codex 实测版本为 0.162.0-alpha.2，Gemini 接入按 0.63.0 校验。
+如果没有找到对应 CLI，可在 AI 面板的“设置”中选择其可执行文件。自动查找包含常规路径、`~/.local/bin` 和 NVM 的 Node 目录。“已找到”只代表文件存在，不代表已登录。Codex 实测版本为 0.162.0-alpha.2，Gemini 为 0.63.0，Antigravity 为 1.3.3。Antigravity 的工具限制与输出协议在 CLI 升级时需要复核，本预览固定接受 1.3.3；应用请求中关闭 CLI 自动更新。各后端的可执行文件路径和模型设置分别保存，切换后端清空应用对话及待执行计划，不自动改用其他服务。
+
+### Google 账号：Antigravity CLI
+
+在本项目源码目录运行 `bash scripts/install-antigravity.sh`，会从 Google 下载并校验已测试的官方 CLI 1.3.3，安装到 `~/.local/bin`，不改写 shell 配置或覆盖已有文件。也可按 [Google 官方安装说明](https://antigravity.google/docs/cli/install/) 安装并核对版本。然后在终端运行 `~/.local/bin/agy` 或自己选择的安装路径，在浏览器中使用自己的 Google 账号登录。在 AI 面板选择 **Antigravity CLI**；若未自动找到，请在“设置”里选择登录时运行的 `agy` 文件。安装位置不在 PATH 时，登录也应使用该文件的完整路径。应用使用 CLI 保存的登录，不需要填写 API Key；账号资格、可用模型和额度由 Google 决定。
+
+建议将 CLI 安装在 `~/.local/bin` 等常规位置。开发机实测：放在 Documents 下的 CLI 从应用进程启动时卡在二进制加载阶段，同一个官方文件移出 Documents 后成功。因此供 GUI 应用使用时，应避免将可执行文件保存在 Documents、桌面或下载文件夹中；已有 Google 登录与 CLI 设置无需复制。
+
+从 **Compositor AI 0.4.0** 起支持 **Antigravity CLI 1.3.3**。真实 Google 账号计划已通过原生命令与撤销链路验证，具体结果见发布验证记录。可输入“添加全局曝光调整，曝光值为 0.25”“把选中图层透明度改为 65%”等文字指令。
+
+**当前 Antigravity 接入仅支持文字与图层信息。** 官方流输入只支持文本块，实测 `@canvas.png` 未将图片送到模型。本后端的“附带画布图片”开关不可用并显示原因；需要看图定位时仍可选择 Codex 或 Gemini CLI。手动修图、渲染和原生工具保持完整。
+
+### 原 Gemini CLI
 
 安装 Gemini CLI 需要 Node.js 20 或更新版本；在终端运行：
 
@@ -29,7 +41,7 @@ gemini
 
 **API Key 使用独立 API 额度和计费；Google AI 订阅不代表已经包含 API 额度。** 启用付费调用前请查看自己账号的 [额度与计费](https://geminicli.com/docs/resources/quota-and-pricing/)。目前尚未验证真实 API Key 下的模型编辑和看图效果。
 
-Google 提供了 [Antigravity CLI 迁移说明](https://antigravity.google/docs/cli/gcli-migration/)。该客户端使用 `agy`，配置和输出格式与 `gemini` 不同。**Compositor AI 0.3.0 尚未接入 Antigravity CLI**，直接把 Gemini 的可执行文件换成 `agy` 不会完成适配。后续接入仍须共用本应用的原生命令与撤销系统；真实账号认证也需要另行验证。
+Google 提供了 [Antigravity CLI 迁移说明](https://antigravity.google/docs/cli/gcli-migration/)。该客户端使用 `agy`，配置和输出格式与 `gemini` 不同。请在 0.4.0 及以上版本选择独立的 **Antigravity CLI** 后端；直接把 **Gemini CLI** 的可执行文件换成 `agy` 不会完成适配。原 0.3.0 下载包不包含新后端。
 
 ## 中文界面与语言切换
 
@@ -48,7 +60,7 @@ Google 提供了 [Antigravity CLI 迁移说明](https://antigravity.google/docs/
 - **手动编辑**：原来的图层、蒙版、画笔、滤镜等工具仍可使用。
 - **AI 指令**：例如“把月亮图层透明度改成 65%”“整体稍微提亮”“将选中的图层重命名为前景”。
 
-对于“把月亮放到第二个山尖上”这样的空间指令，需要勾选 **附带画布图片**，模型才能看到画布。图片预览来自编辑器的渲染器，不需要屏幕录制或辅助功能权限。
+对于“把月亮放到第二个山尖上”这样的空间指令，需要使用支持画布输入的后端，并勾选 **附带画布图片**，模型才能看到画布。Antigravity 当前只接受文字；Codex 和 Gemini CLI 保留画布入口。图片预览来自编辑器的渲染器，不需要屏幕录制或辅助功能权限。
 
 **自动应用编辑** 默认开启，AI 返回的合法命令会自动应用。关闭它则先显示命令列表，由你点击“应用修改”。一次 AI 编辑对应一次原生撤销，按 ⌘Z 可撤销，⇧⌘Z 可重做。保存和导出仍使用编辑器的常规菜单。
 
@@ -64,9 +76,11 @@ AI 思考期间仍可手动编辑；如果文档改变，旧计划会被拒绝�
 
 Gemini 只返回编辑计划，使用临时工作区、空工具列表、关闭钩子与技能、禁用扩展、独立 MCP 白名单和禁止工具执行的策略。用户输入、图层名称和历史中的 `@` 会编码成 JSON 数据，避免被 CLI 展开成任意文件引用；只有勾选图片选项时，才附带应用生成的画布 PNG。
 
+Antigravity 使用私有临时工作区和独立命名的自定义代理，显式只声明 `finish` 工具，关闭命令执行，MCP、技能和插件依赖声明为空；CLI 1.3.3 的空工具列表会继承默认工具，所以不能用于限制。本应用检查所选代理、终态、结构化计划和实际工具步骤，外部工具步骤不会进入原生编辑。CLI 自己的全局配置和账号模块仍是受信任依赖，应用不改写它们，也不宣称有操作系统级隔离。CLI 还提供内部任务管理工具；代理被要求不使用它，出现相应步骤也会拒绝计划。应用临时文件删除后，CLI 自己的会话记录仍可能保留。
+
 不要把登录凭据或 API Key 发给朋友或上传 GitHub。每个人自行登录。
 
-本版已通过无需账号的模拟 CLI 测试，并验证官方 Gemini CLI 0.63.0 的配置与图片预处理。由于开发机尚未登录 Gemini，真实账号下的模型编辑和看图效果仍待验证。
+自动测试默认使用模拟 CLI，不需要账号。Antigravity 另有显式开启的真实 Google 账号测试；CI 不使用个人账号。原 Gemini API Key 下的模型编辑和看图效果仍待验证，不能与 Antigravity 的文字计划验证等同。
 
 ## GitHub 跟踪与参与
 

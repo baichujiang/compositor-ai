@@ -2,7 +2,7 @@
 
 ```
 Text + current document metadata + optional native canvas render
-  → selected local Codex / Gemini CLI using the user’s own login
+  → selected local Codex / Gemini CLI / Antigravity CLI using the user’s own authentication
   → shared strict AIPlanningContract (JSON planning only)
   → AIEditPlan v1
   → full validation against the captured document
@@ -10,7 +10,7 @@ Text + current document metadata + optional native canvas render
   → live canvas, native undo/redo, ordinary .comp save/export
 ```
 
-Both adapters implement `AIBackend` and run off the UI thread. `AIBackendProvider` chooses the adapter, and `AIPlanningContract` owns instructions, schema and strict decoding. Provider choice, executable paths and the optional Gemini model are saved separately; Codex remains the default. Switching providers cancels the current request and discards app history and pending plans, with request IDs rejecting late replies. No automatic provider fallback occurs.
+All adapters implement `AIBackend` and run off the UI thread. `AIBackendProvider` chooses the adapter, and `AIPlanningContract` owns instructions, schema and strict decoding. Provider choice, executable paths and optional models are saved separately; Codex remains the default. Switching providers cancels the current request and discards app history and pending plans, with request IDs rejecting late replies. No automatic provider fallback occurs.
 
 `AICodexBackend` runs with a three-minute deadline and cancel support. The temporary request folder contains the schema, optional preview, response and execution log and is removed afterward. The CLI receives no project paths and has shell/apps/plugins/browser/computer-use tools disabled. These are local model adapters, not a hosted AI service.
 
@@ -19,6 +19,12 @@ Both adapters implement `AIBackend` and run off the UI thread. `AIBackendProvide
 Gemini’s JSON envelope is checked for process errors before parsing its response. A format error permits one format-only correction, within the same total 180-second deadline; unsupported commands/versions and document validation errors never trigger correction. Plans are capped at 256 KB, 20 actions and 4,000 reply characters. `AIProcessRunner` uses file-backed I/O, limits stdout/stderr, and escalates termination to SIGKILL after a short grace period. It signals a process group only when the child owns it.
 
 Gemini expands `@file` references before inference independently of its registered tools. Shared request JSON escapes every user-controlled `@` as `\u0040`; format correction output receives the same treatment. The only literal file reference is the generated `@./canvas.png` when image sharing is enabled. Tests with the official 0.63.0 preprocessor verified that the controlled PNG becomes an image part even with an empty tool registry. A signed-in live model response/vision result has not yet been verified.
+
+`AIAntigravityCLIBackend` pins official CLI 1.3.3 and uses its cached Google login. It creates a unique workspace agent with `tools: [finish]`, no declared skill/plugin/MCP dependencies, `subagent: false`, and command execution off. `tools: []` inherits default tools in this CLI and is unsuitable. The agent body uses the shared planning instructions. CLI-global configuration/account machinery remain trusted dependencies and are not rewritten; no OS sandbox is claimed. Its internal `manage_task` tool remains available, so the instructions forbid its use and observed task/external-tool steps reject the plan. The streamed `init.tools` field reports the CLI-wide registry, not the selected agent's actual allowlist.
+
+One NDJSON `user` message carries the request on stdin, with slash/skill expansion disabled. The CLI supplies schema-enforced `structured_output`; its free-text `response` can include extra completion material and is never decoded as a plan. Success requires exit 0, `SUCCESS`, the selected agent, one terminal result, and no unexpected stream or tool steps. The wire schema omits the version's numeric enum because CLI 1.3.3's Google schema conversion rejects it; the shared strict decoder still enforces version 1, exact fields and known actions. A real Google-account exposure plan was checked through the native command/undo bridge. Auto-update is disabled per app request, files are removed afterward, and CLI-owned sessions may persist.
+
+Antigravity streaming input supports text blocks only. An official CLI test of `@./canvas.png` returned “no image,” so this provider explicitly exposes text/layer-metadata input only and rejects direct preview data. The panel shows a disabled, unchecked canvas toggle for it while preserving the user's saved image preference for other providers. Native image rendering/manual tools and other adapters keep their capabilities. CLI children have editor/Xcode dynamic-loader injection variables removed from their inherited environment; their normal account/environment configuration remains available.
 
 `AIDocumentToken` compares the document value and history revision before applying a response. All actions are simulated on a value copy before live mutation; no partial edit occurs if a later command is invalid. Transform commands use native transform commit so linked mask placement and shape redraw keep the editor's behavior. Exposure and saturation reuse existing adjustment data structures. Selection and zoom alone do not create document undo entries.
 

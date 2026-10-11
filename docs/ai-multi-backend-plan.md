@@ -1,13 +1,15 @@
 # Compositor AI：Claude Code 与 Gemini CLI 扩展计划
 
 日期：2026-10-11  
-状态：Gemini 已按用户 2026-10-11 指令进入 v0.3.0 实现；Claude Code 继续暂缓。下面原始方案保留为设计记录，实际接入以仓库代码及使用说明为准。  
+状态：Gemini CLI 已在 v0.3.0 实现；按用户选择在 v0.4.0 新增 Antigravity CLI，继续使用 Google 账号。Claude Code 继续暂缓。下面原始方案保留为设计记录，实际接入以仓库代码及使用说明为准。
 基线：Compositor AI v0.1.0，`ai/integrated-assistant` 分支。  
 项目：[baichujiang/compositor-ai](https://github.com/baichujiang/compositor-ai)
 
-最初要求仅记录方案。用户现已授权接入 Gemini；此次只实现统一后端基础和 Gemini，尚未授权实施 Claude Code。当前应用为 Compositor AI v0.3.0，原生基线仍为 Compositor 1.4.8。
+最初要求仅记录方案。用户之后授权接入 Gemini，并在个人账号登录被原客户端拒绝后选择适配 Antigravity CLI；尚未授权实施 Claude Code。当前实现为 Compositor AI v0.4.0，原生基线仍为 Compositor 1.4.8。
 
-实际实现：`AIBackend`、`AIBackendProvider`、`AIPlanningContract`、`AIGeminiCLIBackend`、`AIProcessRunner`，以及原 AI 面板中的后端选择和独立路径/模型设置。两种后端共用 `AIEditorCommands`，不改原生工具、布局、快捷键和文件格式。
+v0.3.0 实际实现：`AIBackend`、`AIBackendProvider`、`AIPlanningContract`、`AIGeminiCLIBackend`、`AIProcessRunner`，以及原 AI 面板中的后端选择和独立路径/模型设置。两种后端共用 `AIEditorCommands`，不改原生工具、布局、快捷键和文件格式。
+
+v0.4.0 增加 `AIAntigravityCLIBackend`，接受经验证的 CLI 1.3.3 和已保存的 Google 登录，仍共用同一校验与原生命令桥。该后端目前只有文字/图层信息输入；真实 CLI 的流协议没有将图片文件引用作为图片传给模型，因此不宣称已实现 Antigravity 看图。版本、终态、结构化输出、代理和工具步骤均须校验。安装与账号步骤见 [使用说明](README.zh-CN.md)。
 
 Gemini 要求稳定版 CLI 0.63.0 或更新版本，JSON 外层和内层严格分开解析；最多一次格式修正，整体 180 秒，拒绝未知字段/类型/命令、过期文档及不合法编辑序列。切换后端清空应用对话与待执行计划，不自动切换其他服务。
 

@@ -1,9 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 — 2026-10-11 (preview)
 
-- Corrected Gemini login guidance after Google rejected the legacy CLI for an individual account, including on CLI 0.63.0. API key authentication uses separate API quotas and billing; Antigravity CLI is a different client and is not supported by the existing adapter.
+- Corrected Gemini login guidance after Google rejected the legacy CLI for an individual account, including on CLI 0.63.0. API key authentication uses separate API quotas and billing; Antigravity CLI uses a separate adapter rather than replacing the Gemini executable.
 - Recognize the unsupported-client error before generic authentication failures, with English/Chinese migration guidance and regression coverage. This does not change account credentials or native editor behavior.
+- Added an independent Antigravity CLI backend for saved Google-account authentication, with executable/model settings and English/Chinese guidance in the existing optional AI panel.
+- Pin CLI 1.3.3; generate a custom planning agent with an explicit `finish` allowlist, parse only schema-enforced structured output, reject unexpected streams/tools, and reuse native validation/undo and cancellation limits.
+- Antigravity is text-only in this preview. Its CLI stream protocol does not attach the canvas image; the panel explains that limitation and keeps canvas input available for other providers. Native manual tools, layout, shortcuts, rendering and `.comp` format retain their existing behavior.
+- Added credential-free Antigravity tests, an optional real Google-account/native-undo test, and an installer for the tested official CLI archive that preserves existing binaries and shell profiles.
 
 ## 0.3.0 — 2026-10-11 (preview)
 

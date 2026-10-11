@@ -9,11 +9,19 @@ struct AIAssistantPanel: View {
     @AppStorage("ai.codexPath") private var codexPath = ""
     @AppStorage("ai.geminiPath") private var geminiPath = ""
     @AppStorage("ai.geminiModel") private var geminiModel = ""
+    @AppStorage("ai.antigravityPath") private var antigravityPath = ""
+    @AppStorage("ai.antigravityModel") private var antigravityModel = ""
     @AppStorage("ai.backend") private var providerValue = "codex"
     @State private var prompt = ""
     @State private var showsSettings = false
     private var provider: AIBackendProvider { AIBackendProvider(rawValue: providerValue) ?? .codex }
-    private var executablePath: Binding<String> { provider == .codex ? $codexPath : $geminiPath }
+    private var executablePath: Binding<String> {
+        switch provider {
+        case .codex: $codexPath
+        case .gemini: $geminiPath
+        case .antigravity: $antigravityPath
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -74,8 +82,13 @@ struct AIAssistantPanel: View {
                 }
             }
             Divider()
-            Toggle("Include canvas image", isOn: $includeCanvas).toggleStyle(.checkbox).disabled(assistant.isWorking)
+            Toggle("Include canvas image", isOn: Binding(get: { provider.supportsCanvasImage && includeCanvas }, set: { includeCanvas = $0 }))
+                .toggleStyle(.checkbox).disabled(assistant.isWorking || !provider.supportsCanvasImage)
                 .accessibilityIdentifier("aiIncludeCanvas")
+            if !provider.supportsCanvasImage {
+                Text("Antigravity CLI currently accepts text only. Canvas input is available with Codex or Gemini CLI.")
+                    .font(.caption2).foregroundStyle(.secondary)
+            }
             Toggle("Apply edits automatically", isOn: $autoApply).toggleStyle(.checkbox).disabled(assistant.isWorking)
             Text(LF("Your request, recent chat and layer details are sent through your %@ account. Canvas pixels are sent only when enabled above.", provider.accountName))
                 .font(.caption2).foregroundStyle(.secondary)
@@ -122,6 +135,9 @@ struct AIAssistantPanel: View {
             if provider == .gemini {
                 TextField("Optional Gemini model (CLI default when blank)", text: $geminiModel).textFieldStyle(.roundedBorder)
                     .accessibilityIdentifier("aiGeminiModel")
+            } else if provider == .antigravity {
+                TextField("Optional Antigravity model (CLI default when blank)", text: $antigravityModel).textFieldStyle(.roundedBorder)
+                    .accessibilityIdentifier("aiAntigravityModel")
             }
             Link("Project, downloads & feedback", destination: URL(string: "https://github.com/baichujiang/compositor-ai")!)
                 .font(.caption)
@@ -130,8 +146,9 @@ struct AIAssistantPanel: View {
 
     private func send() {
         let text = prompt
-        assistant.send(text, session: session, includeImage: includeCanvas, autoApply: autoApply,
-                       executablePath: executablePath.wrappedValue, provider: provider, model: geminiModel)
+        assistant.send(text, session: session, includeImage: includeCanvas && provider.supportsCanvasImage, autoApply: autoApply,
+                       executablePath: executablePath.wrappedValue, provider: provider,
+                       model: provider == .antigravity ? antigravityModel : geminiModel)
         if assistant.isWorking { prompt = "" }
     }
 

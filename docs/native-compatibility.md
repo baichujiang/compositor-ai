@@ -20,7 +20,7 @@
 | 文档、保存、导入、导出、撤销与重做 | 使用原生模型及历史。保留上游格式迁移和文件限制；AI 不增加文件字段。 |
 | 中文界面 | 集中在 `Compositor/Localization/`；UI 调用只翻译显示文字，保留原始枚举、命令 ID、快捷键 ID 以及用户内容。 |
 | AI 面板及命令桥 | 集中在 `Compositor/AI/`；仅通过少量会话、视图与菜单钩子接入。侧栏按需打开，可随时关闭；关闭时恢复原有编辑布局。 |
-| 模型后端 | 负责生成统一的类型化计划。未来 Claude Code、Gemini 等后端共用校验和原生命令桥，不复制编辑器核心。本次未实现这些后端。 |
+| 模型后端 | Codex、Gemini CLI、Antigravity CLI 负责生成统一的类型化计划，共用校验和原生命令桥，不复制编辑器核心。Claude Code 仍仅保留方案。 |
 
 新增功能若需要调整原生工具，应先说明必要性、列出行为差异，并验证相应手动流程。兼容修复单独记录，方便与上游对比、合并或在上游修复后移除。
 
@@ -63,3 +63,7 @@ git diff --exit-code 22c7b8d5b23bb1e27a5746912061b23757c4f554 -- Compositor/Docu
 ## Gemini backend (0.3.0)
 
 Gemini is an optional provider inside the existing AI panel. Its only editing output is the same `AIEditPlan` used by Codex; document validation, native commands, rendering and history are shared. Provider controls add no native toolbar button, menu command, shortcut or saved-project field. No adopted upstream manual editing code was changed for this integration.
+
+## Antigravity backend (0.4.0)
+
+Antigravity adds another provider within that same optional panel, with independent executable/model preferences. It uses the existing typed plan, document validation and native undo. Its text-only input limitation affects that provider's canvas-sharing toggle; manual image tools/rendering and other providers retain their capabilities. No native toolbar, menu order, shortcut definition, renderer, document/history implementation or `.comp` field changed for this integration.

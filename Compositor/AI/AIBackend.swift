@@ -6,27 +6,43 @@ nonisolated protocol AIBackend: Sendable {
 }
 
 nonisolated enum AIBackendProvider: String, CaseIterable, Identifiable, Sendable {
-    case codex, gemini
+    case codex, gemini, antigravity
     var id: String { rawValue }
-    var title: String { self == .codex ? "Codex" : "Gemini CLI" }
-    var accountName: String { self == .codex ? "Codex" : "Gemini" }
-    var pathPlaceholder: String { self == .codex ? "Optional Codex executable path" : "Optional Gemini executable path" }
+    var supportsCanvasImage: Bool { self != .antigravity }
+    var title: String {
+        switch self {
+        case .codex: "Codex"
+        case .gemini: "Gemini CLI"
+        case .antigravity: "Antigravity CLI"
+        }
+    }
+    var accountName: String { self == .antigravity ? "Google / Antigravity" : (self == .codex ? "Codex" : "Gemini") }
+    var pathPlaceholder: String {
+        switch self {
+        case .codex: "Optional Codex executable path"
+        case .gemini: "Optional Gemini executable path"
+        case .antigravity: "Optional Antigravity executable path"
+        }
+    }
     var loginInstructions: String {
-        self == .codex
-            ? "Use your own Codex login. Install Codex CLI and run codex login, or sign in to the Codex desktop app."
-            : "Install Gemini CLI 0.63.0 or later and authenticate in Terminal. Google sign-in may reject this client; Gemini API Key uses separate API quotas and billing."
+        switch self {
+        case .codex: "Use your own Codex login. Install Codex CLI and run codex login, or sign in to the Codex desktop app."
+        case .gemini: "Install Gemini CLI 0.63.0 or later and authenticate in Terminal. Google sign-in may reject this client; Gemini API Key uses separate API quotas and billing."
+        case .antigravity: "Install Antigravity CLI and run agy in Terminal to sign in with your Google account. The app uses that CLI's saved login and account allowance."
+        }
     }
     func findExecutable(customPath: String = "") -> URL? {
         let bundled = self == .codex ? [
             "/Applications/Codex.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
             "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
         ] : []
-        return AIExecutableLocator.find(rawValue, customPath: customPath, additional: bundled)
+        return AIExecutableLocator.find(self == .antigravity ? "agy" : rawValue, customPath: customPath, additional: bundled)
     }
     func backend(executable: URL, model: String = "", onStatus: @escaping @Sendable (String) -> Void = { _ in }) -> any AIBackend {
         switch self {
         case .codex: AICodexBackend(executable: executable)
         case .gemini: AIGeminiCLIBackend(executable: executable, model: model, onStatus: onStatus)
+        case .antigravity: AIAntigravityCLIBackend(executable: executable, model: model)
         }
     }
 }
@@ -56,6 +72,10 @@ nonisolated enum AIExecutableLocator {
     }
     static func environment(for executable: URL) -> [String: String] {
         var environment = ProcessInfo.processInfo.environment
+        // Native CLI children must load their own libraries, not the editor's or Xcode's injected test libraries.
+        for key in environment.keys.filter({ $0.hasPrefix("DYLD_") || $0.hasPrefix("__XPC_DYLD_") || $0.hasPrefix("XCInject") }) {
+            environment.removeValue(forKey: key)
+        }
         let directories = [executable.deletingLastPathComponent().path, "/opt/homebrew/bin", "/usr/local/bin"]
             + nodeDirectories + [environment["PATH"] ?? "/usr/bin:/bin"]
         environment["PATH"] = directories.joined(separator: ":")

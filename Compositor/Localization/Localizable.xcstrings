@@ -1310,6 +1310,108 @@
         }
       }
     },
+    "Antigravity CLI": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity CLI"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity CLI"
+          }
+        }
+      }
+    },
+    "Antigravity CLI 1.3.3 is required for this preview. Choose its compatible executable in Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity CLI 1.3.3 is required for this preview. Choose its compatible executable in Settings."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本预览版需要 Antigravity CLI 1.3.3。请在设置中选择兼容的可执行文件。"
+          }
+        }
+      }
+    },
+    "Antigravity CLI currently accepts text only. Canvas input is available with Codex or Gemini CLI.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity CLI currently accepts text only. Canvas input is available with Codex or Gemini CLI."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity CLI 当前仅接受文本。需要附带画布图片时可选择 Codex 或 Gemini CLI。"
+          }
+        }
+      }
+    },
+    "Antigravity could not complete this request. Check your account, connection, model, and CLI version.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity could not complete this request. Check your account, connection, model, and CLI version."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity 未能完成请求。请检查账号、连接、模型和 CLI 版本。"
+          }
+        }
+      }
+    },
+    "Antigravity did not use the restricted planning agent. The document was not changed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity did not use the restricted planning agent. The document was not changed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity 未使用受限的编辑计划代理，文档未被修改。"
+          }
+        }
+      }
+    },
+    "Antigravity's usage limit was reached. Check your Google account allowance or try again later.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity's usage limit was reached. Check your Google account allowance or try again later."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity 的使用额度已耗尽。请检查 Google 账号额度，或稍后重试。"
+          }
+        }
+      }
+    },
     "Applied %lld commands. Undo with ⌘Z.": {
       "extractionState": "manual",
       "localizations": {
@@ -2496,6 +2598,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "AI 画布预览最多支持 2,500 万像素。请对此文档关闭“附带画布图片”。"
+          }
+        }
+      }
+    },
+    "Canvas images are not supported by Antigravity CLI in this preview. Choose Codex or Gemini CLI for canvas input.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canvas images are not supported by Antigravity CLI in this preview. Choose Codex or Gemini CLI for canvas input."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本预览版的 Antigravity CLI 暂不支持附带画布图片。需要画布输入时可选择 Codex 或 Gemini CLI。"
           }
         }
       }
@@ -6682,6 +6801,23 @@
         }
       }
     },
+    "Enter a valid Antigravity model name, or leave it blank for the CLI default.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a valid Antigravity model name, or leave it blank for the CLI default."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请输入有效的 Antigravity 模型名称，或留空使用 CLI 默认模型。"
+          }
+        }
+      }
+    },
     "Enter a valid Gemini model name, or leave it blank for the CLI default.": {
       "extractionState": "manual",
       "localizations": {
@@ -7991,19 +8127,36 @@
         }
       }
     },
-    "Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration.": {
+    "Google / Antigravity": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Google rejected this Gemini CLI client for your account. Use Gemini API Key authentication with separate API quotas and billing. Antigravity CLI requires a separate integration."
+            "value": "Google / Antigravity"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Google 已拒绝你账号使用的 Gemini CLI 客户端。可选择 Gemini API Key，使用独立 API 额度和计费。Antigravity CLI 需要另行适配。"
+            "value": "Google / Antigravity"
+          }
+        }
+      }
+    },
+    "Google rejected this Gemini CLI client for your account. Select Antigravity CLI for Google sign-in, or use Gemini API Key with separate API quotas and billing.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google rejected this Gemini CLI client for your account. Select Antigravity CLI for Google sign-in, or use Gemini API Key with separate API quotas and billing."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Google 已拒绝你账号使用的 Gemini CLI 客户端。可选择 Antigravity CLI 使用 Google 登录，或选择 Gemini API Key 使用独立 API 额度和计费。"
           }
         }
       }
@@ -10010,6 +10163,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Instagram 快拍"
+          }
+        }
+      }
+    },
+    "Install Antigravity CLI and run agy in Terminal to sign in with your Google account. The app uses that CLI's saved login and account allowance.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Install Antigravity CLI and run agy in Terminal to sign in with your Google account. The app uses that CLI's saved login and account allowance."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装 Antigravity CLI，在终端运行 agy 并使用自己的 Google 账号登录。应用使用该 CLI 保存的登录和账号额度。"
           }
         }
       }
@@ -14026,6 +14196,40 @@
         }
       }
     },
+    "Optional Antigravity executable path": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional Antigravity executable path"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity 可执行文件路径（可选）"
+          }
+        }
+      }
+    },
+    "Optional Antigravity model (CLI default when blank)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional Antigravity model (CLI default when blank)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antigravity 模型（可选，留空使用 CLI 默认模型）"
+          }
+        }
+      }
+    },
     "Optional Codex executable path": {
       "extractionState": "manual",
       "localizations": {
@@ -17728,6 +17932,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "收缩蒙版以移除主体周围的背景色边缘，或扩展蒙版"
+          }
+        }
+      }
+    },
+    "Sign in to Antigravity CLI with your Google account in Terminal, then try again. Run agy using the executable selected in Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to Antigravity CLI with your Google account in Terminal, then try again. Run agy using the executable selected in Settings."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先在终端使用自己的 Google 账号登录 Antigravity CLI，再重试。请运行设置中选择的 agy 可执行文件。"
           }
         }
       }
