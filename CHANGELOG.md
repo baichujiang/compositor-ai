@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3 — 2026-10-11 (preview)
+
+- Reviewed the Chinese catalog and refined 79 existing translations for tonal controls, vignettes, sampling, masks, selections and filter parameters; documented the terminology and individual changes in `docs/chinese-terminology.md`.
+- Added four context-specific display keys so selection Amount, healing Type, Camera Raw Light and perspective-guide clearing do not share misleading translations with filter strength, the text tool, color swatches or canvas guides. Their English display values, enum IDs, shortcuts, actions and layout are preserved.
+- Retained the independent 0.4.2 application icon and the adopted Compositor 1.4.8 editing baseline.
+
 ## 0.4.2 — 2026-10-11 (preview)
 
 - Replaced the inherited application icon with an independent forest-green icon featuring stacked image canvases and a star, distinguishing Compositor AI from the official editor in Finder, the Dock and the app switcher.

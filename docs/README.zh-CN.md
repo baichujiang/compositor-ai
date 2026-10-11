@@ -6,6 +6,8 @@
 
 这是基于 [Compositor](https://github.com/robbietilton/Compositor) 开源源码开发的独立 AI 版本，由本仓库维护，非原作者官方版本。手动编辑和 AI 指令直接操作同一份编辑器文档，共用原生撤销记录。
 
+0.4.3 优化了滤镜强度、选区像素数、明暗、晕影、取样和蒙版提示，详见 [中文术语与逐条修订](chinese-terminology.md)。
+
 ## 安装
 
 1. 准备 Apple Silicon Mac，系统须为 **macOS 26 或更新版本**。

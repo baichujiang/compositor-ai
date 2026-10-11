@@ -8,6 +8,8 @@ An **unofficial, MIT-licensed fork** of [Compositor](https://github.com/robbieti
 
 [Downloads](https://github.com/baichujiang/compositor-ai/releases) · [中文使用说明](docs/README.zh-CN.md) · [Report a bug](https://github.com/baichujiang/compositor-ai/issues) · [Architecture](docs/ai-architecture.md)
 
+Chinese labels and help follow a context-aware editing glossary; see [Chinese terminology and translation revisions](docs/chinese-terminology.md).
+
 ## Try the preview
 
 1. Use an **Apple Silicon Mac running macOS 26 or later**.

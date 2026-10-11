@@ -22,7 +22,7 @@ struct BrushControls: View {
                         .help("Liquify pushes pixels · Blur softens · Smudge drags color along")
                     }
                     if session.tool == .spotHealing {
-                        Picker("Type", selection: $session.spotHealingMode) {
+                        Picker("Healing type", selection: $session.spotHealingMode) {
                             ForEach(SpotHealingMode.allCases, id: \.self) { Text(L($0.rawValue)).tag($0) }
                         }
                         .pickerStyle(.segmented).labelsHidden().fixedSize()

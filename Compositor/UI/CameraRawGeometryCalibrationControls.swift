@@ -29,7 +29,7 @@ struct CameraRawGeometryControls: View {
                         .font(.caption).foregroundStyle(.secondary)
                 }
                 if !raw.geometry.guides.isEmpty {
-                    Button("Clear Guides") {
+                    Button("Clear perspective guides") {
                         update { $0.cameraRaw.geometry.guides = [] }
                     }
                     .help("Remove every guide line.")

@@ -1050,7 +1050,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "调整图片的明亮区域。按住 Option 查看溢出的高光。"
+            "value": "调整图片的高光区域。按住 Option 查看高光剪切预览。"
           }
         }
       }
@@ -1067,7 +1067,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "调整图片的暗部。按住 Option 查看溢出的阴影。"
+            "value": "调整图片的阴影区域。按住 Option 查看阴影剪切预览。"
           }
         }
       }
@@ -1169,7 +1169,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "数量"
+            "value": "强度"
           }
         }
       }
@@ -1237,7 +1237,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅分析当前图层，或分析所有可见图层的显示效果"
+            "value": "仅分析当前图层，或分析所有可见图层的合成结果"
           }
         }
       }
@@ -1730,7 +1730,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "固化并删除"
+            "value": "保留效果并删除"
           }
         }
       }
@@ -1747,7 +1747,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "固化会将当前蒙版效果写入依赖图层的像素；移除链接会显示其原始像素。两种操作均可撤销。"
+            "value": "保留效果会把当前蒙版效果写入使用此蒙版的图层像素；解除链接会显示这些图层未被蒙版遮盖的像素。两种操作均可撤销。"
           }
         }
       }
@@ -2291,7 +2291,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "以曝光档数调亮或调暗整张图片。按住 Option 查看溢出的高光。"
+            "value": "以曝光档数调亮或调暗整张图片。按住 Option 查看高光剪切预览。"
           }
         }
       }
@@ -2428,6 +2428,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "Camera Raw 滤镜"
+          }
+        }
+      }
+    },
+    "Camera Raw light section": {
+      "comment": "Camera Raw tonal-adjustment section; not a light color swatch.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明暗"
           }
         }
       }
@@ -2852,7 +2870,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "选择暗角颜色"
+            "value": "选择晕影颜色"
           }
         }
       }
@@ -3010,6 +3028,24 @@
         }
       }
     },
+    "Clear perspective guides": {
+      "comment": "Camera Raw geometry guides; not the canvas ruler guides.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Guides"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除校正线"
+          }
+        }
+      }
+    },
     "Clear the haze that leaves background showing through thin areas": {
       "extractionState": "manual",
       "localizations": {
@@ -3039,7 +3075,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "提高时去除朦胧，降低时增加朦胧。"
+            "value": "提高数值可去除薄雾，降低数值可增加薄雾。"
           }
         }
       }
@@ -3430,7 +3466,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仿制图章（S）· 按住 Option 点击设置来源"
+            "value": "仿制图章（S）· 按住 Option 点击设置取样点"
           }
         }
       }
@@ -3821,7 +3857,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "拾色器（暗角颜色）"
+            "value": "拾色器（晕影颜色）"
           }
         }
       }
@@ -4348,7 +4384,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅从当前图层复制，或从所有可见图层的显示结果复制"
+            "value": "仅从当前图层取样，或从所有可见图层的合成结果取样"
           }
         }
       }
@@ -4518,7 +4554,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "无法修边"
+            "value": "无法裁去图像边缘"
           }
         }
       }
@@ -5147,7 +5183,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "去朦胧"
+            "value": "去除薄雾"
           }
         }
       }
@@ -5470,7 +5506,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "处理“%@”"
+            "value": "RAW 显影“%@”"
           }
         }
       }
@@ -5963,7 +5999,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在图层上拖动放置参考线，至少绘制两条。"
+            "value": "在图层上拖动绘制校正线，至少绘制两条。"
           }
         }
       }
@@ -6269,7 +6305,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "绘制参考线"
+            "value": "绘制校正线"
           }
         }
       }
@@ -6337,7 +6373,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在预览中绘制至少两条应为水平或垂直的线。"
+            "value": "在预览中绘制至少两条应为水平或垂直的校正线。"
           }
         }
       }
@@ -6422,7 +6458,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "复制图层 / 通过拷贝的图层"
+            "value": "复制图层 / 通过复制新建图层"
           }
         }
       }
@@ -8258,7 +8294,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "分级"
+            "value": "调色"
           }
         }
       }
@@ -8326,7 +8362,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "绿色数量"
+            "value": "绿色去边强度"
           }
         }
       }
@@ -8343,7 +8379,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "绿色色相"
+            "value": "绿色色相范围"
           }
         }
       }
@@ -8722,6 +8758,24 @@
         }
       }
     },
+    "Healing type": {
+      "comment": "Spot Healing mode picker; not the Type/text tool.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修复方式"
+          }
+        }
+      }
+    },
     "Height": {
       "extractionState": "manual",
       "localizations": {
@@ -9040,7 +9094,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "高光溢出指示"
+            "value": "高光剪切指示"
           }
         }
       }
@@ -9397,7 +9451,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "镜头配置文件渐晕校正的应用比例。"
+            "value": "镜头配置文件晕影校正的应用比例。"
           }
         }
       }
@@ -9550,7 +9604,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "色相改变颜色，饱和度改变浓度，亮度改变明暗。"
+            "value": "色相改变颜色种类，饱和度改变颜色的鲜艳程度，亮度改变明暗。"
           }
         }
       }
@@ -10349,7 +10403,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在笔画之间保持来源随画笔移动；关闭后，每笔都从来源点开始"
+            "value": "在连续笔画之间保持取样点与画笔的相对位置；关闭后，每次绘制都从同一取样点开始。"
           }
         }
       }
@@ -10638,7 +10692,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "通过拷贝的图层"
+            "value": "通过复制新建图层"
           }
         }
       }
@@ -11131,7 +11185,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "行间距"
+            "value": "线条间距"
           }
         }
       }
@@ -11879,7 +11933,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "增强或减弱拾取颜色的浓度。"
+            "value": "增强或减弱所取样颜色的饱和度。"
           }
         }
       }
@@ -11913,7 +11967,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "增强或减弱所选色系的浓度。"
+            "value": "增强或减弱所选色系的饱和度。"
           }
         }
       }
@@ -11930,7 +11984,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "使暗角更圆或更方。"
+            "value": "使晕影更圆或更方。"
           }
         }
       }
@@ -12100,7 +12154,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "主通道"
+            "value": "全图"
           }
         }
       }
@@ -12831,7 +12885,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "向内或向外移动渐晕校正范围。"
+            "value": "向内或向外移动晕影校正范围。"
           }
         }
       }
@@ -12899,7 +12953,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "邻近"
+            "value": "最近邻"
           }
         }
       }
@@ -13256,7 +13310,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "修边后没有剩余内容。"
+            "value": "裁边后没有剩余内容。"
           }
         }
       }
@@ -13647,7 +13701,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关闭时保持原图；引导模式根据你在图片中绘制的线条校正。"
+            "value": "关闭时保持原图；引导模式根据图中绘制的校正线校正透视。"
           }
         }
       }
@@ -14157,7 +14211,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "按住 Option 点击设置来源"
+            "value": "按住 Option 点击设置取样点"
           }
         }
       }
@@ -14174,7 +14228,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Option 点击设置来源 · 拖动仿制 · [ ] 大小 · Shift-[ ] 硬度 · 1–0 不透明度 · 空格平移"
+            "value": "Option 点击设置取样点 · 拖动仿制 · [ ] 大小 · Shift-[ ] 硬度 · 1–0 不透明度 · 空格平移"
           }
         }
       }
@@ -14191,7 +14245,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "请先按住 Option 点击仿制图章的来源位置。"
+            "value": "请先按住 Option 点击图像，设置仿制图章的取样点。"
           }
         }
       }
@@ -14565,7 +14619,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "参数"
+            "value": "参数曲线"
           }
         }
       }
@@ -14582,7 +14636,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "参数模式调整色调区域；点模式在曲线上放置控制点。"
+            "value": "参数曲线按亮度区域调整明暗；点曲线通过控制点调整曲线形状。"
           }
         }
       }
@@ -14650,7 +14704,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "透视模式支持更强的梯形校正；直线模式的变形较柔和。"
+            "value": "透视投影支持较强的梯形校正；直线投影采用较柔和的变形。"
           }
         }
       }
@@ -14752,7 +14806,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "点"
+            "value": "点曲线"
           }
         }
       }
@@ -15262,7 +15316,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "应用暗角时保护明亮像素，用于高光优先模式。"
+            "value": "应用晕影时保护明亮像素，用于高光优先模式。"
           }
         }
       }
@@ -15347,7 +15401,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "紫色数量"
+            "value": "紫色去边强度"
           }
         }
       }
@@ -15364,7 +15418,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "紫色色相"
+            "value": "紫色色相范围"
           }
         }
       }
@@ -15517,7 +15571,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "比例"
+            "value": "纵横比"
           }
         }
       }
@@ -15534,7 +15588,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "仅从当前图层读取颜色，或从所有可见图层的显示结果读取"
+            "value": "从当前图层取样，或从所有可见图层的合成结果取样"
           }
         }
       }
@@ -15653,7 +15707,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "直线"
+            "value": "直线投影"
           }
         }
       }
@@ -15925,7 +15979,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "移除链接并删除"
+            "value": "解除链接并删除"
           }
         }
       }
@@ -15942,7 +15996,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "移除所有参考线。"
+            "value": "清除所有透视校正线。"
           }
         }
       }
@@ -16554,7 +16608,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "采样"
+            "value": "插值方式"
           }
         }
       }
@@ -17171,6 +17225,24 @@
         }
       }
     },
+    "Selection adjustment amount": {
+      "comment": "Pixel distance for selection expand, contract and feather; not filter strength.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amount"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "像素数"
+          }
+        }
+      }
+    },
     "Send": {
       "extractionState": "manual",
       "localizations": {
@@ -17234,7 +17306,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置最亮点。按住 Option 查看溢出的高光。"
+            "value": "设置白场。按住 Option 查看高光剪切预览。"
           }
         }
       }
@@ -17251,7 +17323,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置最暗点。按住 Option 查看溢出的阴影。"
+            "value": "设置黑场。按住 Option 查看阴影剪切预览。"
           }
         }
       }
@@ -17268,7 +17340,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "设置暗角从中心向外开始的位置。"
+            "value": "设置晕影从中心向外开始的位置。"
           }
         }
       }
@@ -17319,7 +17391,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "阴影溢出指示"
+            "value": "阴影剪切指示"
           }
         }
       }
@@ -17574,7 +17646,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将图片从偏蓝调整为偏黄。"
+            "value": "在蓝色与黄色之间调整色温。"
           }
         }
       }
@@ -17591,7 +17663,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将图片从偏绿调整为偏紫。"
+            "value": "在绿色与洋红色之间调整色调。"
           }
         }
       }
@@ -17710,7 +17782,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示控件"
+            "value": "显示变换框"
           }
         }
       }
@@ -17795,7 +17867,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示变换控件"
+            "value": "显示变换框"
           }
         }
       }
@@ -17812,7 +17884,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在预览中用红色显示溢出的高光。"
+            "value": "在预览中用红色标出高光剪切区域（亮部细节丢失）。"
           }
         }
       }
@@ -17829,7 +17901,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "在预览中用蓝色显示溢出的阴影。"
+            "value": "在预览中用蓝色标出阴影剪切区域（暗部细节丢失）。"
           }
         }
       }
@@ -17897,7 +17969,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "显示变换框与控制点（⌘H）。隐藏时，在任意位置拖动即可移动图层。"
+            "value": "显示变换框与控制点（⌘H）。隐藏后，在画布任意位置拖动即可移动当前图层。"
           }
         }
       }
@@ -18237,7 +18309,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "柔化暗角边缘。"
+            "value": "柔化晕影边缘。"
           }
         }
       }
@@ -18492,7 +18564,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "以相同幅度增强或减弱所有颜色。"
+            "value": "以相同幅度提高或降低所有颜色的饱和度。"
           }
         }
       }
@@ -18560,7 +18632,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "优先增强较淡颜色，同时保护肤色。"
+            "value": "优先调整低饱和度颜色，对已鲜艳的颜色影响较小，并保护肤色。"
           }
         }
       }
@@ -19240,7 +19312,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "修边后的图像尺寸无效。"
+            "value": "裁边后的图像尺寸无效。"
           }
         }
       }
@@ -19308,7 +19380,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "这些图层提供实时蒙版"
+            "value": "这些图层被用作实时蒙版"
           }
         }
       }
@@ -19325,7 +19397,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "厚度"
+            "value": "线宽"
           }
         }
       }
@@ -19444,7 +19516,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "此图层提供实时蒙版"
+            "value": "此图层被用作实时蒙版"
           }
         }
       }
@@ -19495,7 +19567,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "三向"
+            "value": "三色轮"
           }
         }
       }
@@ -19512,7 +19584,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "三向模式同时显示阴影、中间调与高光；其他模式显示一个色轮。"
+            "value": "三色轮模式同时显示阴影、中间调和高光三个色轮；其他模式显示一个色轮。"
           }
         }
       }
@@ -20005,7 +20077,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "修边"
+            "value": "裁边"
           }
         }
       }
@@ -20022,7 +20094,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "移除边缘"
+            "value": "裁去边缘"
           }
         }
       }
@@ -20039,7 +20111,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "修边…"
+            "value": "裁边…"
           }
         }
       }
@@ -20226,7 +20298,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "平均"
+            "value": "均匀"
           }
         }
       }
@@ -20464,7 +20536,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "直立"
+            "value": "透视校正"
           }
         }
       }
@@ -20719,7 +20791,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "暗角"
+            "value": "晕影"
           }
         }
       }
@@ -20736,7 +20808,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "渐晕"
+            "value": "晕影"
           }
         }
       }
