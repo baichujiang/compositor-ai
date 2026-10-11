@@ -8,6 +8,8 @@
 
 ## Updating the baseline
 
+Preserve the full adopted native editing surface. Use [native compatibility](docs/native-compatibility.md) to review feature coverage, layout, shortcuts, file behavior and intentional exceptions. Keep AI/localization changes small and separate from upstream editing logic. Do not adopt a release by dropping native features to resolve conflicts.
+
 Work in a separate branch and keep local edits intact. Add upstream if needed:
 
 ```sh

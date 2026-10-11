@@ -10,7 +10,7 @@ An **unofficial, MIT-licensed fork** of [Compositor](https://github.com/robbieti
 2. Download the ZIP from this repository's Releases, unzip it, and move **Compositor AI.app** to Applications.
 3. This preview is **ad hoc signed and not notarized**. macOS may block the download. Follow Apple's [instructions for opening a trusted app](https://support.apple.com/en-us/102445), or build the source yourself. Do not turn off Gatekeeper globally.
 4. Install a current [Codex CLI](https://github.com/openai/codex) and run `codex login`, or sign in to the Codex desktop app on this Mac. Each person uses their own account and usage allowance. The app does not include shared AI credits.
-5. Open an image or `.comp` project, use the **AI** toolbar button, and describe an edit. For spatial requests, enable **Include canvas image**.
+5. Open an image or `.comp` project, choose **View / 显示 → AI Assistant / AI 助手**, and describe an edit. For spatial requests, enable **Include canvas image**.
 
 The app finds Codex in standard install locations and in `/Applications/Codex.app` or `/Applications/ChatGPT.app`. For a different installation, choose the executable in AI Settings. A detected executable does not establish that the account is signed in. This preview was verified with Codex CLI 0.162.0-alpha.2; older CLIs may not support its planning flags.
 
@@ -25,6 +25,8 @@ Examples:
 ## Interface language
 
 The editor defaults to **Simplified Chinese**, including menus, tool controls, dialogs and the AI assistant. To use English, choose **Compositor AI → 界面语言 / Interface Language → English**, then quit and reopen the app. The choice is saved for this app only. Document names, layer names, typed text and the `.comp` format remain unchanged. Command search accepts Chinese tool names and their English aliases.
+
+The native toolbar, project-tab width allocation, and manual tools retain the upstream layout. The AI panel starts closed and opens only when requested; it uses additional space beside the Layers panel while open. Its menu entry is appended after the native View commands and has no reserved shortcut, so existing and remapped native shortcuts keep their behavior.
 
 ## What AI can do
 
@@ -60,6 +62,8 @@ The AI branch is based on **Compositor 1.4.8**, commit `22c7b8d5b23bb1e27a574691
 The `.comp` format remains version **11**; AI adds ordinary native adjustment layers rather than private file fields. Opening a newer upstream format is subject to the original editor's compatibility rules. Upstream's Sparkle updater was removed, so official Compositor updates cannot replace this build. Compositor AI has its own bundle ID, preferences and release channel and can coexist with Compositor.
 
 See [upstream tracking](UPSTREAM.md), [contributing](CONTRIBUTING.md), and [the original feature list](docs/UPSTREAM-README.md). Upstream updates are reviewed and tested before being adopted; a source fork still requires maintenance for macOS, rendering, file formats and AI dependencies.
+
+The development policy is to preserve the full adopted native editor and add optional capabilities through shared native operations. See [native compatibility](docs/native-compatibility.md) for reviewed source areas, intentional differences, and the upgrade checklist. This is a preservation requirement, not a claim of exhaustive behavior or pixel equivalence with every upstream release.
 
 ## License and credits
 

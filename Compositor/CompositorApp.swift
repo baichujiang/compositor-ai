@@ -110,8 +110,6 @@ struct CompositorApp: App {
                         }
                     }
                     CommandGroup(after: .toolbar) {
-                        Button(L("AI Assistant")) { session.showsAIAssistant.toggle() }
-                            .keyboardShortcut("a", modifiers: [.command, .shift])
                         Button(L("Search Commands…")) {
                             CommandPaletteController.shared.toggle(session: session, over: applicationDelegate.projects.window)
                         }
@@ -177,6 +175,11 @@ struct CompositorApp: App {
                                 .configuredKeyboardShortcut(";", modifiers: [.command, .option]).disabled(session.document == nil)
                             Button(L("Clear Guides")) { session.clearGuides() }
                                 .disabled(!session.canClearGuides)
+                        }
+                        Group {
+                            Divider()
+                            Toggle(L("AI Assistant"), isOn: Binding(get: { session.showsAIAssistant },
+                                                                  set: { session.showsAIAssistant = $0 }))
                         }
                     }
                     // ⌘H toggles the Move tool's transform controls instead of hiding the app, so Hide keeps its

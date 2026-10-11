@@ -18,3 +18,7 @@ Coordinates are document pixels with origin at the top left. Move uses absolute 
 The optional image is rendered by ImageExporter, then resized to at most 1,400 pixels on its long side. To bound preview memory, canvases above 25 megapixels require text-only mode. Images are not desktop screenshots. Conversations are per editor session, in memory, and reset when the session changes documents.
 
 The app has its own bundle identifier and does not use the upstream updater. The macOS App Sandbox is disabled in this preview to allow execution of a user-installed CLI and access to its login. A production distribution needs its own signing/notarization pipeline. No saved-project schema fields were added.
+
+## Native editor boundary
+
+The adopted upstream editor owns rendering, document data, tools, focus, manual shortcuts and history. AI owns request planning, validation and its optional panel; localization owns display text. Provider adapters must return the same typed plan rather than implement their own edits. The panel starts closed, is appended beside the existing Layers panel when requested, and is toggled from the end of the native View menu. It adds no native toolbar control and reserves no shortcut. See [native compatibility](native-compatibility.md) for exceptions and upgrade validation.

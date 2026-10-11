@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-10-11 (preview)
+
+- Restored the upstream native toolbar and project-tab width allocation; the AI panel starts closed.
+- Appended the AI visibility toggle after native View commands, with no reserved shortcut to interfere with remapped native shortcuts.
+- Documented native capability preservation, extension boundaries, known differences and upstream upgrade validation as contributor and agent requirements.
+
 ## 0.2.0 — 2026-10-11 (preview)
 
 - Simplified Chinese by default across menus, tools, parameters, dialogs, help and AI controls.

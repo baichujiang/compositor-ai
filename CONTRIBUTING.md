@@ -1,6 +1,10 @@
 # Contributing
 
-Open issues and pull requests against `ai/integrated-assistant`, the default branch. Include the problem, resulting behavior and validation. Use Xcode 26.6+ on Apple Silicon/macOS 26+ and run `scripts/test.sh` before submitting native changes. Preserve the upstream MIT notice and American spelling in UI/code.
+Open issues and pull requests against `ai/integrated-assistant`, the default branch. Include the problem, resulting behavior and validation. Use Xcode 26.6+ on Apple Silicon/macOS 26+ and run `scripts/test.sh` before submitting native changes. Preserve the upstream MIT notice and American spelling in English UI/code; Simplified Chinese display text is maintained in the localization catalog.
+
+## Preserve native capabilities
+
+Follow [native compatibility](docs/native-compatibility.md). Retain all adopted upstream manual operations, toolbar layout, native menu order and shortcut behavior. Put optional enhancements in their own modules and reuse the native editor operations. Localize display text while preserving stored values and IDs. AI restrictions must not restrict manual editing. List intentional behavior fixes separately, and include native regressions and file compatibility in upstream upgrade validation.
 
 ## Adding AI commands
 
