@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — 2026-10-11 (preview)
+
+- Added optional Gemini CLI backend alongside the default Codex backend, with separate executable and model settings in Chinese and English.
+- Shared typed-plan instructions, strict schema validation and native command/history integration across providers. Provider switching clears app chat and pending plans; no automatic fallback.
+- Added one bounded format correction for Gemini, controlled canvas-image attachment, escaped user file-reference syntax, tool restrictions, deadline/output limits and cancel escalation.
+- Added credential-free backend/process tests and documented Gemini installation, account use, CLI log retention and the remaining live-account validation gap. Native manual editing, toolbar, menu order, shortcuts and `.comp` format are unchanged by this provider addition.
+
 ## 0.2.1 — 2026-10-11 (preview)
 
 - Restored the upstream native toolbar and project-tab width allocation; the AI panel starts closed.

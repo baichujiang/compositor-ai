@@ -137,6 +137,23 @@
         }
       }
     },
+    "%@ detected (login not verified)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ detected (login not verified)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已找到 %@（尚未验证登录）"
+          }
+        }
+      }
+    },
     "%@ effect": {
       "extractionState": "manual",
       "localizations": {
@@ -188,6 +205,23 @@
         }
       }
     },
+    "%@ not found": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ not found"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到 %@"
+          }
+        }
+      }
+    },
     "%@ the selection by this many pixels": {
       "extractionState": "manual",
       "localizations": {
@@ -218,6 +252,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ 未压缩 RGBA 画布"
+          }
+        }
+      }
+    },
+    "%@ was not found. Install it, sign in, or choose its executable in Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ was not found. Install it, sign in, or choose its executable in Settings."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到 %@。请安装并登录，或在设置中选择其可执行文件。"
           }
         }
       }
@@ -528,6 +579,23 @@
         }
       }
     },
+    "AI backend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI backend"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 后端"
+          }
+        }
+      }
+    },
     "AI can move, scale, rotate, rename and adjust layers. Painting and object generation are not available yet.": {
       "extractionState": "manual",
       "localizations": {
@@ -562,6 +630,23 @@
         }
       }
     },
+    "AI did not finish within the time limit. The document was not changed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI did not finish within the time limit. The document was not changed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 请求超时，文档未修改。"
+          }
+        }
+      }
+    },
     "AI referenced a missing layer. Nothing was changed.": {
       "extractionState": "manual",
       "localizations": {
@@ -592,6 +677,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "AI 请求了不支持的混合模式。"
+          }
+        }
+      }
+    },
+    "AI returned an invalid edit plan. The document was not changed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI returned an invalid edit plan. The document was not changed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 返回的编辑计划格式无效，文档未修改。"
+          }
+        }
+      }
+    },
+    "AI returned too much output. The document was not changed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI returned too much output. The document was not changed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 回复超出大小限制，文档未修改。"
           }
         }
       }
@@ -4098,6 +4217,23 @@
         }
       }
     },
+    "Correcting the response format…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correcting the response format…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在修正回复格式…"
+          }
+        }
+      }
+    },
     "Couldn’t change canvas size": {
       "extractionState": "manual",
       "localizations": {
@@ -6529,6 +6665,23 @@
         }
       }
     },
+    "Enter a valid Gemini model name, or leave it blank for the CLI default.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a valid Gemini model name, or leave it blank for the CLI default."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请输入有效的 Gemini 模型名称，或留空使用 CLI 默认模型。"
+          }
+        }
+      }
+    },
     "Enter a whole number from 1 to %lld px.": {
       "extractionState": "manual",
       "localizations": {
@@ -7698,6 +7851,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "高斯模糊"
+          }
+        }
+      }
+    },
+    "Gemini CLI 0.63.0 or later is required. Update it, or choose a compatible executable in Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini CLI 0.63.0 or later is required. Update it, or choose a compatible executable in Settings."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 Gemini CLI 0.63.0 或更新版本。请升级，或在设置中选择兼容的可执行文件。"
+          }
+        }
+      }
+    },
+    "Gemini could not complete this request. Check your login, connection, model, and CLI version.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini could not complete this request. Check your login, connection, model, and CLI version."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 未能完成请求。请检查登录、网络、模型和 CLI 版本。"
+          }
+        }
+      }
+    },
+    "Gemini did not return an edit plan. The document was not changed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini did not return an edit plan. The document was not changed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 未返回编辑计划，文档未修改。"
+          }
+        }
+      }
+    },
+    "Gemini's usage limit was reached. Check your account or try again later.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini's usage limit was reached. Check your account or try again later."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 额度已用完。请检查账号或稍后重试。"
           }
         }
       }
@@ -13771,6 +13992,40 @@
         }
       }
     },
+    "Optional Gemini executable path": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional Gemini executable path"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 可执行文件路径（可选）"
+          }
+        }
+      }
+    },
+    "Optional Gemini model (CLI default when blank)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional Gemini model (CLI default when blank)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gemini 模型（留空使用 CLI 默认模型）"
+          }
+        }
+      }
+    },
     "Oranges": {
       "extractionState": "manual",
       "localizations": {
@@ -17443,6 +17698,23 @@
         }
       }
     },
+    "Sign in to Gemini CLI in Terminal, then try again. Run gemini and choose your account.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in to Gemini CLI in Terminal, then try again. Run gemini and choose your account."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先在终端运行 gemini 并登录自己的账号，然后重试。"
+          }
+        }
+      }
+    },
     "Size": {
       "extractionState": "manual",
       "localizations": {
@@ -18459,6 +18731,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "2012 年的处理方式。校准强度接近版本 6。"
+          }
+        }
+      }
+    },
+    "The CLI and service may retain their own sessions or logs. Clearing this chat does not remove those records.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The CLI and service may retain their own sessions or logs. Clearing this chat does not remove those records."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CLI 和服务可能自行保留会话或日志。清空此处对话不会删除这些记录。"
           }
         }
       }
@@ -19976,6 +20265,23 @@
         }
       }
     },
+    "Use your own Gemini login. Install Gemini CLI 0.63.0 or later, run gemini in Terminal, and sign in.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use your own Gemini login. Install Gemini CLI 0.63.0 or later, run gemini in Terminal, and sign in."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用自己的 Gemini 账号。安装 Gemini CLI 0.63.0 或更新版本，在终端运行 gemini 并登录。"
+          }
+        }
+      }
+    },
     "Vectorscope": {
       "extractionState": "manual",
       "localizations": {
@@ -20567,6 +20873,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "如果不保存，所做更改将会丢失。"
+          }
+        }
+      }
+    },
+    "Your request, recent chat and layer details are sent through your %@ account. Canvas pixels are sent only when enabled above.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your request, recent chat and layer details are sent through your %@ account. Canvas pixels are sent only when enabled above."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求、近期对话和图层信息会通过你的 %@ 账号发送。仅在开启上述选项时发送画布图片。"
           }
         }
       }

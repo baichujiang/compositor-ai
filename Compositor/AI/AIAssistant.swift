@@ -10,13 +10,14 @@ struct AIChatMessage: Identifiable {
 
 @Observable
 final class AIAssistant {
+    private(set) var selectedProvider: AIBackendProvider = .codex
     var messages: [AIChatMessage] = []
     var isWorking = false
     var status = ""
     var pendingPlan: AIEditPlan?
     @ObservationIgnored private var pendingToken: AIDocumentToken?
     @ObservationIgnored private var request: Task<Void, Never>?
-    @ObservationIgnored private var backend: AICodexBackend?
+    @ObservationIgnored private var backend: (any AIBackend)?
     @ObservationIgnored private var requestID: UUID?
 
     func cancel() {
@@ -44,8 +45,15 @@ final class AIAssistant {
         status = "Ready"
     }
 
-    func send(_ text: String, session: EditorSession, includeImage: Bool, autoApply: Bool, executablePath: String) {
+    func selectBackend(_ provider: AIBackendProvider) {
+        guard selectedProvider != provider else { return }
+        clear()
+        selectedProvider = provider
+    }
+
+    func send(_ text: String, session: EditorSession, includeImage: Bool, autoApply: Bool, executablePath: String, provider: AIBackendProvider = .codex, model: String = "") {
         guard !isWorking else { return }
+        selectBackend(provider)
         let text = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return }
         do {
@@ -53,15 +61,13 @@ final class AIAssistant {
             guard session.canEditLayers, session.effectsEditing == nil, session.colorPicker == nil, session.opacityEditLayerID == nil else {
                 throw AIAssistantError.message("Open a canvas and finish the current edit before sending a request.")
             }
-            guard let executable = AICodexBackend.findExecutable(customPath: executablePath) else {
-                throw AIAssistantError.message("Codex CLI was not found. Install Codex, sign in, or choose its executable in Settings below.")
+            guard let executable = provider.findExecutable(customPath: executablePath) else {
+                throw AIAssistantError.message(LF("%@ was not found. Install it, sign in, or choose its executable in Settings.", provider.title))
             }
             let token = try AIDocumentToken(session: session)
             let context = try AIEditorCommands.context(session)
-            let recent = messages.suffix(12).map { ($0.isUser ? "User: " : "Assistant: ") + $0.text }.joined(separator: "\n")
-            let prompt = AICodexBackend.instructions + "\n\nConversation (previous requests only):\n" + recent
-                + "\n\n<document_data>\n" + context + "\n</document_data>\n"
-                + "\nCanvas image attached: \(includeImage)\nLatest user request:\n" + text
+            let recent = messages.suffix(12).map { ["role": $0.isUser ? "user" : "assistant", "text": $0.text] }
+            let prompt = try AIPlanningContract.prompt(context: context, history: recent, request: text, includeImage: includeImage)
             let snapshot = includeImage ? session.projectSnapshot() : nil
             if includeImage, token.document.width * token.document.height > 25_000_000 {
                 throw AIAssistantError.message("Canvas images are limited to 25 megapixels for AI previews. Disable Include canvas image for this document.")
@@ -70,9 +76,13 @@ final class AIAssistant {
             pendingToken = nil
             messages.append(AIChatMessage(isUser: true, text: text))
             if messages.count > 80 { messages.removeFirst(messages.count - 80) }
-            let backend = AICodexBackend(executable: executable)
-            self.backend = backend
             let id = UUID()
+            let backend = provider.backend(executable: executable, model: model) { [weak self] status in
+                Task { @MainActor [weak self] in
+                    if self?.requestID == id { self?.status = status }
+                }
+            }
+            self.backend = backend
             requestID = id
             isWorking = true
             status = includeImage ? "Rendering canvas…" : "Thinking…"

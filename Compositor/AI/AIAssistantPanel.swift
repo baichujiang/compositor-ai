@@ -7,8 +7,13 @@ struct AIAssistantPanel: View {
     @AppStorage("ai.includeCanvas") private var includeCanvas = false
     @AppStorage("ai.autoApply") private var autoApply = true
     @AppStorage("ai.codexPath") private var codexPath = ""
+    @AppStorage("ai.geminiPath") private var geminiPath = ""
+    @AppStorage("ai.geminiModel") private var geminiModel = ""
+    @AppStorage("ai.backend") private var providerValue = "codex"
     @State private var prompt = ""
     @State private var showsSettings = false
+    private var provider: AIBackendProvider { AIBackendProvider(rawValue: providerValue) ?? .codex }
+    private var executablePath: Binding<String> { provider == .codex ? $codexPath : $geminiPath }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -18,6 +23,9 @@ struct AIAssistantPanel: View {
                 Button { assistant.clear() } label: { Image(systemName: "arrow.counterclockwise") }.help("Clear conversation")
                 Button { session.showsAIAssistant = false } label: { Image(systemName: "xmark") }.help("Hide AI Assistant")
             }
+            Picker("AI backend", selection: $providerValue) {
+                ForEach(AIBackendProvider.allCases) { Text($0.title).tag($0.rawValue) }
+            }.disabled(assistant.isWorking).accessibilityIdentifier("aiBackend")
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
@@ -69,7 +77,7 @@ struct AIAssistantPanel: View {
             Toggle("Include canvas image", isOn: $includeCanvas).toggleStyle(.checkbox).disabled(assistant.isWorking)
                 .accessibilityIdentifier("aiIncludeCanvas")
             Toggle("Apply edits automatically", isOn: $autoApply).toggleStyle(.checkbox).disabled(assistant.isWorking)
-            Text("Your request, recent chat and layer details are sent through your Codex account. Canvas pixels are sent only when enabled above.")
+            Text(LF("Your request, recent chat and layer details are sent through your %@ account. Canvas pixels are sent only when enabled above.", provider.accountName))
                 .font(.caption2).foregroundStyle(.secondary)
             TextField("Describe an edit…", text: $prompt, axis: .vertical)
                 .lineLimit(2...5).textFieldStyle(.roundedBorder)
@@ -89,23 +97,31 @@ struct AIAssistantPanel: View {
         }
         .padding(14).frame(width: 330)
         .background(Color(white: 0.12))
+        .onAppear { assistant.selectBackend(provider) }
+        .onChange(of: providerValue) { _, _ in assistant.selectBackend(provider) }
     }
 
     private var settings: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(L(AICodexBackend.findExecutable(customPath: codexPath) == nil ? "Codex CLI not found" : "Codex CLI detected"))
+            Text(LF(provider.findExecutable(customPath: executablePath.wrappedValue) == nil ? "%@ not found" : "%@ detected (login not verified)", provider.title))
                 .font(.caption.bold())
-            Text("Use your own Codex login. Install Codex CLI and run codex login, or sign in to the Codex desktop app.")
+            Text(L(provider.loginInstructions))
                 .font(.caption).foregroundStyle(.secondary)
+            Text("The CLI and service may retain their own sessions or logs. Clearing this chat does not remove those records.")
+                .font(.caption2).foregroundStyle(.secondary)
             HStack {
-                TextField("Optional Codex executable path", text: $codexPath).textFieldStyle(.roundedBorder)
+                TextField(L(provider.pathPlaceholder), text: executablePath).textFieldStyle(.roundedBorder)
                 Button("Choose…") {
                     let panel = NSOpenPanel()
                     panel.canChooseDirectories = false
                     panel.canChooseFiles = true
                     panel.allowsMultipleSelection = false
-                    if panel.runModal() == .OK, let url = panel.url { codexPath = url.path }
+                    if panel.runModal() == .OK, let url = panel.url { executablePath.wrappedValue = url.path }
                 }
+            }
+            if provider == .gemini {
+                TextField("Optional Gemini model (CLI default when blank)", text: $geminiModel).textFieldStyle(.roundedBorder)
+                    .accessibilityIdentifier("aiGeminiModel")
             }
             Link("Project, downloads & feedback", destination: URL(string: "https://github.com/baichujiang/compositor-ai")!)
                 .font(.caption)
@@ -114,7 +130,8 @@ struct AIAssistantPanel: View {
 
     private func send() {
         let text = prompt
-        assistant.send(text, session: session, includeImage: includeCanvas, autoApply: autoApply, executablePath: codexPath)
+        assistant.send(text, session: session, includeImage: includeCanvas, autoApply: autoApply,
+                       executablePath: executablePath.wrappedValue, provider: provider, model: geminiModel)
         if assistant.isWorking { prompt = "" }
     }
 

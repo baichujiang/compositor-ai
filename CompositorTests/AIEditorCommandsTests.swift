@@ -144,7 +144,7 @@ struct AIEditorCommandsTests {
         let session = try session()
         let context = try #require(JSONSerialization.jsonObject(with: Data(AIEditorCommands.context(session).utf8)) as? [String: Any])
         #expect(context["apiVersion"] as? Int == 1)
-        let schema = try #require(JSONSerialization.jsonObject(with: AICodexBackend.schema()) as? [String: Any])
+        let schema = try #require(JSONSerialization.jsonObject(with: AIPlanningContract.schema()) as? [String: Any])
         #expect(schema["additionalProperties"] as? Bool == false)
         let json = """
         {"version":1,"reply":"请明确图层","actions":[]}

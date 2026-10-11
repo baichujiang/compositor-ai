@@ -59,3 +59,7 @@ git diff --exit-code 22c7b8d5b23bb1e27a5746912061b23757c4f554 -- Compositor/Docu
 9. 构建安装包并记录测试证据、故意保留的差异和未测项，再更新 UPSTREAM.md 与 CHANGELOG。
 
 自动测试通过不能替代上述人工一致性核对。升级仍需要合并、验证和维护；模块边界减少冲突，不代表自动兼容所有上游变化。
+
+## Gemini backend (0.3.0)
+
+Gemini is an optional provider inside the existing AI panel. Its only editing output is the same `AIEditPlan` used by Codex; document validation, native commands, rendering and history are shared. Provider controls add no native toolbar button, menu command, shortcut or saved-project field. No adopted upstream manual editing code was changed for this integration.
